@@ -1,0 +1,17 @@
+.bold {
+    font-weight: bold;
+}
+
+.name {
+    @extend .bold;
+    font-size: 16;
+}
+
+.bg-img {
+    display: inline-block;
+    width: 107px;
+    height: 107px;
+    background-image: url('../assets/imgs/smile-dog.png');
+    background-size: contain;
+    vertical-align: middle;
+}
