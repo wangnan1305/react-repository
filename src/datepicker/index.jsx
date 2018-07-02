@@ -6,24 +6,27 @@ export default class Datepicker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: '2018-06-27'
+            value: '2018-06-27',
+            openModal: false
         }
     }
     inputEnter = () => {
-        console.log(1)
+        this.setState({openModal: true})
     }
     inputLeave = () => {
-        this.setState({value: '2018-06-11'})
+        this.setState({openModal: false}) 
     }
     render() {
-        const { value } = this.state;
+        const { value,openModal } = this.state;
         return (
             <div className="react-datepicker">
-                <input type="text"
-                    value={value}
-                    onMouseEnter={this.inputEnter} 
-                    onMouseLeave={this.inputLeave}
-                />
+                <div className="datepicker-input" onMouseOver={this.inputEnter} onMouseOut={this.inputLeave}>
+                    <input readOnly={true} type="text" className="c-input" value={value} placeholder="请选择日期"/>
+                    <span className="datepicker-icon"></span>
+                </div>
+                {openModal && <div className="datepicker-modal">
+                    
+                </div>}
             </div>
         )
     }
