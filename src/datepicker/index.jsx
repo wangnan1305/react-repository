@@ -25,7 +25,14 @@ export default class Datepicker extends React.Component {
                     <span className="datepicker-icon"></span>
                 </div>
                 {openModal && <div className="datepicker-modal">
-                    
+                    <div className="datepicker-modal-top">
+                        <span className="top-left"></span>
+                        <span className="top-content">2018-07</span>
+                        <span className="top-right">></span>
+                    </div>
+                    <div className="datepicker-modal-content">
+
+                    </div>
                 </div>}
             </div>
         )
