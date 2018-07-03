@@ -65,6 +65,7 @@ export function previousDays(date=new Date(), n=1, pattern="yyyy-MM-dd") {
     for(var i=0; i<n; i++) {
         temDateArr.push(previousDay(date, i+1, pattern));
     }
+    return temDateArr;
 }
 
 /**
