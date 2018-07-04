@@ -51,7 +51,7 @@ fs.mkdirSync(path.join(srcPath, componentName, 'doc'))
 fs.mkdirSync(path.join(srcPath, componentName, 'doc', 'demo'))
 
 const componentRoot = path.join(srcPath, componentName)
-const indexScriptFile = fs.openSync(path.join(componentRoot, 'index.js'), 'w')
+const indexScriptFile = fs.openSync(path.join(componentRoot, 'index.jsx'), 'w')
 const indexSassFile = fs.openSync(
   path.join(componentRoot, 'style', 'index.scss'),
   'w'
