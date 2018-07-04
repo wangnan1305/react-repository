@@ -37,16 +37,16 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.jsx?$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: /src/,
-        options: {
-          formatter: require('eslint-friendly-formatter'),
-          emitWarning: false
-        }
-      },
+      // {
+      //   test: /\.jsx?$/,
+      //   loader: 'eslint-loader',
+      //   enforce: 'pre',
+      //   include: /src/,
+      //   options: {
+      //     formatter: require('eslint-friendly-formatter'),
+      //     emitWarning: false
+      //   }
+      // },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
