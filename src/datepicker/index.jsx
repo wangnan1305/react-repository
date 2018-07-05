@@ -1,68 +1,68 @@
-import React from 'react'
+import React from 'react';
 
-import './style/index.scss'
+import './style/index.scss';
 
 export default class Datepicker extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             value: '2018-07-03',
             openModal: false
-        }
+        };
     }
-    componentWillMount(){
-        this.getDays()
-    }
-    inputEnter = () => {
-        this.setState({openModal: true})
-    }
-    inputLeave = () => {
-        this.setState({openModal: false}) 
+    componentWillMount() {
+        this.getDays();
     }
     getDays = () => {
-        const day = new Date(this.state.value), 
-            month = day.getMonth(),   //月份
-            year = day.getFullYear(),
-            preMonthlastDay = new Date(year,month,0), //上个月的最后一天
-            nowMonthLastDay = new Date(year,month+1,0), //这个月的最后一天
-            nowMonthDays = new Date(year,month+1,0).getDate(), //这个月总共有多少天
-            lastWeek = preMonthlastDay.getDay(), //上个月的最后一天是周几
-            nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
+        const day = new Date(this.state.value),
+                month = day.getMonth(), // 月份
+                year = day.getFullYear(),
+                preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
+                nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
+                nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
+                lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
+                nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
 
-        let days_middle = [],days_pre=[],days_next=[];
+        const daysMiddle = [], daysPre = [], daysNext = [];
 
-        for(let i = 1;i <= nowMonthDays;i++){
-            days_middle.push({
-                text:i,
-                day: new Date(year,month,i)
-            })
+        for (let i = 1; i <= nowMonthDays; i++) {
+            daysMiddle.push({
+                text: i,
+                day: new Date(year, month, i)
+            });
         }
-        if(lastWeek !== 0){
-            for(let i = 0;i < lastWeek;i++){
-                days_pre.push({
-                    text:preMonthlastDay.getDate() - i,
-                    day: new Date(year,month,(preMonthlastDay.getDate() - i))
-                })
+        if (lastWeek !== 0) {
+            for (let i = lastWeek - 1; i >= 0; i--) {
+                daysPre.push({
+                    text: preMonthlastDay.getDate() - i,
+                    day: new Date(year, month - 1, (preMonthlastDay.getDate() - i))
+                });
             }
         }
-        if(nowWeek !== 0){
-            for(let i = 1;i <= 7 - nowWeek;i++){
-                days_next.push({
+        if (nowWeek !== 0) {
+            for (let i = 1; i <= 7 - nowWeek; i++) {
+                daysNext.push({
                     text: i,
-                    day: new Date(year,)
-                })
+                    day: new Date(year, month + 1, i)
+                });
             }
         }
-        console.log(days_pre)
-        console.log(days_middle)
-
+        return daysPre.concat(daysMiddle).concat(daysNext);
+    }
+    inputEnter = () => {
+        this.setState({ openModal: true });
+    }
+    inputLeave = () => {
+        this.setState({ openModal: false });
     }
     render() {
-        const { value,openModal } = this.state;
+        const { value, openModal } = this.state;
+        const daysMap = this.getDays();
+        console.log(daysMap);
         return (
             <div className="react-datepicker">
-                <div className="datepicker-input" onMouseOver={this.inputEnter} onMouseOut={this.inputLeave}>
-                    <input readOnly={true} type="text" className="c-input" value={value} placeholder="请选择日期"/>
+                <div className="datepicker-input" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
+                    <input readOnly type="text" className="c-input" value={value} placeholder="请选择日期" />
                     <span className="datepicker-icon"></span>
                 </div>
                 {openModal && <div className="datepicker-modal">
@@ -75,7 +75,7 @@ export default class Datepicker extends React.Component {
 
                     </div>
                 </div>}
-            </div> 
-        )
+            </div>
+        );
     }
-} 
+}

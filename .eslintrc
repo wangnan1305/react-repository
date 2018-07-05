@@ -3,5 +3,44 @@
     "env": {
         "browser": true
     },
-    "extends": "airbnb"
+    "extends": "airbnb",
+    "rules": {
+        "one-var": 0,
+        "one-var-declaration-per-line": 0,
+        "no-restricted-syntax": 0,
+        "no-plusplus": 0,
+        "no-param-reassign": 0,
+        "linebreak-style": ["error", "unix"],
+        "func-names": ["error", "never"],
+        "semi": 2,
+        "comma-dangle": ["error", "never"],
+        "indent": ["error", 4, {
+            "VariableDeclarator": 2,
+            "SwitchCase": 1
+        }],
+        "max-len": ["error", {
+            "code": 300
+        }],
+        "arrow-parens": ["error", "as-needed"],
+        "import/no-unresolved": 0,
+        "import/extensions": 0,
+        "react/jsx-indent": [0, 4],
+        "react/jsx-filename-extension": [1, {
+            "extensions": [".js", ".jsx"]
+        }],
+        "react/forbid-prop-types": 0,
+        "react/jsx-indent-props": ["error", 4],
+        "react/self-closing-comp": ["error", {
+            "component": true,
+            "html": false
+        }],
+        "jsx-quotes": [2, "prefer-double"],
+        "no-unused-expressions": ["error", {
+            "allowShortCircuit": true,
+            "allowTernary": true
+        }],
+        "jsx-a11y/click-events-have-key-events": 0,
+        "jsx-a11y/no-static-element-interactions": 0,
+        "prefer-destructuring": 0
+    }
 }
