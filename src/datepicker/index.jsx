@@ -75,7 +75,7 @@ export default class Datepicker extends React.Component {
 
                     </div>
                 </div>}
-            </div>
+            </div> 
         )
     }
 } 
