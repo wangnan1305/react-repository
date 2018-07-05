@@ -26,8 +26,11 @@ export default class Datepicker extends React.Component {
             preMonthlastDay = new Date(year,month,0), //上个月的最后一天
             nowMonthLastDay = new Date(year,month+1,0), //这个月的最后一天
             nowMonthDays = new Date(year,month+1,0).getDate(), //这个月总共有多少天
-            lastWeek = preMonthlastDay.getDay(); //上个月的最后一天是周几;
+            lastWeek = preMonthlastDay.getDay(), //上个月的最后一天是周几
+            nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
+
         let days_middle = [],days_pre=[],days_next=[];
+
         for(let i = 1;i <= nowMonthDays;i++){
             days_middle.push({
                 text:i,
@@ -39,6 +42,14 @@ export default class Datepicker extends React.Component {
                 days_pre.push({
                     text:preMonthlastDay.getDate() - i,
                     day: new Date(year,month,(preMonthlastDay.getDate() - i))
+                })
+            }
+        }
+        if(nowWeek !== 0){
+            for(let i = 1;i <= 7 - nowWeek;i++){
+                days_next.push({
+                    text: i,
+                    day: new Date(year,)
                 })
             }
         }
