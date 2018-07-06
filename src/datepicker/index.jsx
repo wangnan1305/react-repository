@@ -1,20 +1,23 @@
 import React from 'react';
 
 import './style/index.scss';
+import { formatDate } from './tools/index';
 
 export default class Datepicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '2018-07-03',
+            nowValue: new Date(formatDate(new Date(), 'yyyy-MM-dd')), // 当前时间
+            selectedValue: '', // 选中时间
+            weekText: ['一', '二', '三', '四', '五', '六', '日'],
             openModal: false
         };
     }
     componentWillMount() {
         this.getDays();
     }
-    getDays = () => {
-        const day = new Date(this.state.value),
+    getDays = date => {
+        const day = new Date(formatDate(date, 'yyyy-MM-dd')),
                 month = day.getMonth(), // 月份
                 year = day.getFullYear(),
                 preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
@@ -50,31 +53,42 @@ export default class Datepicker extends React.Component {
         return daysPre.concat(daysMiddle).concat(daysNext);
     }
     inputEnter = () => {
+        clearTimeout(this.timer);
         this.setState({ openModal: true });
     }
     inputLeave = () => {
-        this.setState({ openModal: false });
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            this.setState({ openModal: false });
+        }, 300);
     }
     render() {
-        const { value, openModal } = this.state;
-        const daysMap = this.getDays();
+        const { value, openModal, weekText } = this.state;
+        const daysMap = this.getDays(new Date());
         console.log(daysMap);
         return (
-            <div className="react-datepicker">
-                <div className="datepicker-input" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
+            <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
+                <div className="datepicker-input">
                     <input readOnly type="text" className="c-input" value={value} placeholder="请选择日期" />
                     <span className="datepicker-icon"></span>
                 </div>
-                {openModal && <div className="datepicker-modal">
+                <div className="datepicker-modal" style={{ display: openModal ? 'block' : 'none' }}>
                     <div className="datepicker-modal-top">
                         <span className="top-left"></span>
                         <span className="top-content">2018-07</span>
                         <span className="top-right"></span>
                     </div>
                     <div className="datepicker-modal-content">
-
+                        <div className="week-title">
+                            {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
+                        </div>
+                        <div className="days-content">
+                            {daysMap.map((
+                                item => <div className="days-con-item" data-value={item.day} key={formatDate(item.day, 'yyyy-MM-dd')}>{item.text}</div>
+                            ))}
+                        </div>
                     </div>
-                </div>}
+                </div>
             </div>
         );
     }
