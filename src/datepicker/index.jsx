@@ -1,70 +1,95 @@
-import React from 'react'
+import React from 'react';
 
-import './style/index.scss'
+import './style/index.scss';
+import { formatDate } from './tools/index';
 
 export default class Datepicker extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            value: '2018-07-03',
+            nowValue: new Date(formatDate(new Date(), 'yyyy-MM-dd')), // 当前时间
+            selectedValue: '', // 选中时间
+            weekText: ['一', '二', '三', '四', '五', '六', '日'],
             openModal: false
+        };
+    }
+    componentWillMount() {
+        this.getDays();
+    }
+    getDays = date => {
+        const day = new Date(formatDate(date, 'yyyy-MM-dd')),
+                month = day.getMonth(), // 月份
+                year = day.getFullYear(),
+                preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
+                nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
+                nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
+                lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
+                nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
+
+        const daysMiddle = [], daysPre = [], daysNext = [];
+
+        for (let i = 1; i <= nowMonthDays; i++) {
+            daysMiddle.push({
+                text: i,
+                day: new Date(year, month, i)
+            });
         }
-    }
-    componentWillMount(){
-        this.getDays()
-    }
-    inputEnter = () => {
-        this.setState({openModal: true})
-    }
-    inputLeave = () => {
-        this.setState({openModal: false}) 
-    }
-    getDays = () => {
-        const day = new Date(this.state.value), 
-            month = day.getMonth(),   //月份
-            year = day.getFullYear(),
-            preMonthlastDay = new Date(year,month,0), //上个月的最后一天
-            nowMonthLastDay = new Date(year,month+1,0), //这个月的最后一天
-            nowMonthDays = new Date(year,month+1,0).getDate(), //这个月总共有多少天
-            lastWeek = preMonthlastDay.getDay(); //上个月的最后一天是周几;
-        let days_middle = [],days_pre=[],days_next=[];
-        for(let i = 1;i <= nowMonthDays;i++){
-            days_middle.push({
-                text:i,
-                day: new Date(year,month,i)
-            })
-        }
-        if(lastWeek !== 0){
-            for(let i = 0;i < lastWeek;i++){
-                days_pre.push({
-                    text:preMonthlastDay.getDate() - i,
-                    day: new Date(year,month,(preMonthlastDay.getDate() - i))
-                })
+        if (lastWeek !== 0) {
+            for (let i = lastWeek - 1; i >= 0; i--) {
+                daysPre.push({
+                    text: preMonthlastDay.getDate() - i,
+                    day: new Date(year, month - 1, (preMonthlastDay.getDate() - i))
+                });
             }
         }
-        console.log(days_pre)
-        console.log(days_middle)
-
+        if (nowWeek !== 0) {
+            for (let i = 1; i <= 7 - nowWeek; i++) {
+                daysNext.push({
+                    text: i,
+                    day: new Date(year, month + 1, i)
+                });
+            }
+        }
+        return daysPre.concat(daysMiddle).concat(daysNext);
+    }
+    inputEnter = () => {
+        clearTimeout(this.timer);
+        this.setState({ openModal: true });
+    }
+    inputLeave = () => {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            this.setState({ openModal: false });
+        }, 300);
     }
     render() {
-        const { value,openModal } = this.state;
+        const { value, openModal, weekText } = this.state;
+        const daysMap = this.getDays(new Date());
+        console.log(daysMap);
         return (
-            <div className="react-datepicker">
-                <div className="datepicker-input" onMouseOver={this.inputEnter} onMouseOut={this.inputLeave}>
-                    <input readOnly={true} type="text" className="c-input" value={value} placeholder="请选择日期"/>
+            <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
+                <div className="datepicker-input">
+                    <input readOnly type="text" className="c-input" value={value} placeholder="请选择日期" />
                     <span className="datepicker-icon"></span>
                 </div>
-                {openModal && <div className="datepicker-modal">
+                <div className="datepicker-modal" style={{ display: openModal ? 'block' : 'none' }}>
                     <div className="datepicker-modal-top">
                         <span className="top-left"></span>
                         <span className="top-content">2018-07</span>
                         <span className="top-right"></span>
                     </div>
                     <div className="datepicker-modal-content">
-
+                        <div className="week-title">
+                            {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
+                        </div>
+                        <div className="days-content">
+                            {daysMap.map((
+                                item => <div className="days-con-item" data-value={item.day} key={formatDate(item.day, 'yyyy-MM-dd')}>{item.text}</div>
+                            ))}
+                        </div>
                     </div>
-                </div>}
+                </div>
             </div>
-        )
+        );
     }
-} 
+}

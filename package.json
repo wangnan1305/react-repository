@@ -43,8 +43,8 @@
     "css-split-webpack-plugin": "^0.2.3",
     "docsearch.js": "^2.5.2",
     "enquire-js": "^0.1.2",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "latest",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.9.0",
@@ -80,5 +80,8 @@
     "scrollama": "^1.0.0",
     "webpack": "^3.6.0",
     "webpack-merge": "^4.1.1"
+  },
+  "dependencies": {
+    "react": "~16.2.0"
   }
 }

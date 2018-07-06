@@ -18,11 +18,27 @@
     }
     .datepicker-modal{
         position: absolute;
+        width: 180px;
         top: 50px;
         left: 0;
-        width: 100px;
-        height: 100px;
-        background: #999;
+        background: #fff;
+        border: 1px solid #999;
         z-index: 9999;
+        .datepicker-modal-content{
+            .week-title{
+                overflow: hidden;
+                .week-title-item{
+                    float: left;
+                    width: 25px;
+                }
+            }
+            .days-content{
+                overflow: hidden;
+                .days-con-item{
+                    float: left;
+                    width: 25px;
+                }
+            }
+        }
     }
 }
