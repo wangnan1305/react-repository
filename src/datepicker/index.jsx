@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './style/index.scss';
 import { formatDate } from './tools/index';
@@ -7,15 +8,15 @@ export default class Datepicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nowValue: new Date(formatDate(new Date(), 'yyyy-MM-dd')), // 当前时间
+            nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
             selectedValue: '', // 选中时间
             weekText: ['一', '二', '三', '四', '五', '六', '日'],
             openModal: false
         };
     }
-    componentWillMount() {
-        this.getDays();
-    }
+    // componentWillMount() {
+    //     this.getDays();
+    // }
     getDays = date => {
         const day = new Date(formatDate(date, 'yyyy-MM-dd')),
                 month = day.getMonth(), // 月份
@@ -62,10 +63,22 @@ export default class Datepicker extends React.Component {
             this.setState({ openModal: false });
         }, 300);
     }
+    clickInput = e => {
+        const value = e.target.dataset.time;
+        const { onChange } = this.props;
+        console.log(value)
+        this.setState({
+            selectedValue: value,
+            openModal: false
+        });
+        onChange && onChange(value);
+    }
     render() {
-        const { value, openModal, weekText } = this.state;
+        const {
+            nowValue, selectedValue, openModal, weekText
+        } = this.state;
         const daysMap = this.getDays(new Date());
-        console.log(daysMap);
+        const value = selectedValue || nowValue;
         return (
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
@@ -84,7 +97,15 @@ export default class Datepicker extends React.Component {
                         </div>
                         <div className="days-content">
                             {daysMap.map((
-                                item => <div className="days-con-item" data-value={item.day} key={formatDate(item.day, 'yyyy-MM-dd')}>{item.text}</div>
+                                item => (
+                                    <div
+                                        className="days-con-item"
+                                        data-time={formatDate(item.day, 'yyyy-MM-dd')}
+                                        key={formatDate(item.day, 'yyyy-MM-dd')}
+                                        onClick={this.clickInput}
+                                    >{item.text}
+                                    </div>
+                                )
                             ))}
                         </div>
                     </div>
@@ -93,3 +114,10 @@ export default class Datepicker extends React.Component {
         );
     }
 }
+Datepicker.propTypes = {
+    onChange: PropTypes.func
+};
+
+Datepicker.defaultProps = {
+    onChange: () => {}
+};
