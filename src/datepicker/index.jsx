@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style/index.scss';
-import { formatDate } from './tools/index';
+import { formatDate, classNames } from './tools/index';
 
 export default class Datepicker extends React.Component {
     constructor(props) {
@@ -66,7 +66,6 @@ export default class Datepicker extends React.Component {
     clickInput = e => {
         const value = e.target.dataset.time;
         const { onChange } = this.props;
-        console.log(value)
         this.setState({
             selectedValue: value,
             openModal: false
@@ -97,15 +96,35 @@ export default class Datepicker extends React.Component {
                         </div>
                         <div className="days-content">
                             {daysMap.map((
-                                item => (
-                                    <div
-                                        className="days-con-item"
-                                        data-time={formatDate(item.day, 'yyyy-MM-dd')}
-                                        key={formatDate(item.day, 'yyyy-MM-dd')}
-                                        onClick={this.clickInput}
-                                    >{item.text}
-                                    </div>
-                                )
+                                item => {
+                                    const dayText = formatDate(item.day, 'yyyy-MM-dd');
+                                    let cls = 'days-con-item';
+                                    if (dayText === nowValue && dayText === selectedValue) {
+                                        cls = classNames({
+                                            'days-con-item': true,
+                                            'now-selected-active': true
+                                        });
+                                    } else if (dayText === selectedValue) {
+                                        cls = classNames({
+                                            'days-con-item': true,
+                                            'selected-active': true
+                                        });
+                                    } else if (dayText === nowValue) {
+                                        cls = classNames({
+                                            'days-con-item': true,
+                                            'now-active': true
+                                        });
+                                    }
+                                    return (
+                                        <div
+                                            className={cls}
+                                            data-time={dayText}
+                                            key={dayText}
+                                            onClick={this.clickInput}
+                                        >{item.text}
+                                        </div>
+                                    );
+                                }
                             ))}
                         </div>
                     </div>
