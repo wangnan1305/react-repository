@@ -13,7 +13,7 @@
  * Utils.formatDate(new Date(),'yyyy-M-d h:m:s.S') ==> 2006-7-2 8:9:4.18
  */
 export function formatDate(date, fmt, flag) {
-    if (!date) return;
+    if (!date) return '';
     let hour = 0;
     if (flag) {
         hour = date.getHours();
@@ -32,8 +32,8 @@ export function formatDate(date, fmt, flag) {
         "q+": Math.floor((date.getMonth() + 3) / 3) // 季度
     };
     const week = {
-        "0": "\u65e5", // 日
-        "1": "\u4e00", // 一
+        "0": "\u65e5",
+        "1": "\u4e00",
         "2": "\u4e8c",
         "3": "\u4e09",
         "4": "\u56db",
@@ -41,15 +41,19 @@ export function formatDate(date, fmt, flag) {
         "6": "\u516d"
     };
     if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        fmt = fmt.replace(RegExp.$1, (`${date.getFullYear()}`).substr(4 - RegExp.$1.length));
     }
 
     if (/(E+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "\u661f\u671f" : "\u5468") : "") + week[date.getDay() + ""]);
+        let str = "";
+        if (RegExp.$1.length > 1) {
+            str = RegExp.$1.length > 2 ? "\u661f\u671f" : "\u5468";
+        }
+        fmt = fmt.replace(RegExp.$1, str + week[`${date.getDay()}`]);
     }
-    for (var k in o) {
-        if (new RegExp("(" + k + ")").test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    for (const k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : ((`00${o[k]}`).substr((`${o[k]}`).length)));
         }
     }
     return fmt;
@@ -61,15 +65,15 @@ export function formatDate(date, fmt, flag) {
  * @param {*} n
  * @param {*} pattern
  */
-export function previousDay(date = new Date(), n = 1, pattern = "yyyy-MM-dd") {
-    let temDate = new Date(date.getTime());
+export function previousDay(date = new Date(), n = 1) {
+    const temDate = new Date(date.getTime());
     temDate.setDate(temDate.getDate() - n);
     return temDate;
 }
 
 export function previousDays(date = new Date(), n = 1, pattern = "yyyy-MM-dd") {
-    let temDateArr = [];
-    for (var i = 0; i < n; i++) {
+    const temDateArr = [];
+    for (let i = 0; i < n; i++) {
         temDateArr.push(previousDay(date, i + 1, pattern));
     }
     return temDateArr;
@@ -83,58 +87,71 @@ export function previousDays(date = new Date(), n = 1, pattern = "yyyy-MM-dd") {
  * @example convertDyadicArray([2,3,4,5,6,7], 3) => [[2,3,4],[5,6,7]]
  */
 export function convertDyadicArray(arr, row) {
-    let dyadicArray = [];
+    const dyadicArray = [];
     const col = arr.length / row;
     for (let i = 0; i < col; i++) {
-        dyadicArray.push(arr.slice(i * row, (i + 1) * row))
+        dyadicArray.push(arr.slice(i * row, (i + 1) * row));
     }
     return dyadicArray;
 }
+function getWeekOfYear(today) {
+    let firstDay = new Date(today.getFullYear(), 0, 1), spendDay = 1;
+    const dayOfWeek = firstDay.getDay();
+    if (dayOfWeek !== 0) {
+        spendDay = (7 - dayOfWeek) + 1;
+    }
+    firstDay = new Date(today.getFullYear(), 0, 1 + spendDay);
 
+    const d = Math.ceil((today.valueOf() - firstDay.valueOf()) / 86400000);
+    let result = Math.ceil(d / 7) + 1;
+
+    result = result < 10 ? `0${result}` : result;
+    return result;
+}
 export function getTimeParam(selectDate) {
-    var t = {};
-    if (/*selectDate[2] == 1 || */selectDate[2] == 7 || selectDate[2] == 15 || selectDate[2] == 30 || selectDate[2] == 90 || selectDate[2] == 1 || selectDate[2] == 365) {
+    const t = {};
+    if (/* selectDate[2] == 1 || */selectDate[2] === 7 || selectDate[2] === 15 || selectDate[2] === 30 || selectDate[2] === 90 || selectDate[2] === 1 || selectDate[2] === 365) {
         t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
         t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
-        if (selectDate[2] == 1) {
+        if (selectDate[2] === 1) {
             t.date = t.endDate;
         } else {
             t.date = selectDate[2] + t.endDate;
         }
-    } else if (selectDate[2] == "dayRange") {
+    } else if (selectDate[2] === "dayRange") {
         t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
         t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
-        t.date = "10" + t.endDate;
-    } else if (selectDate[2] == 'month') {
+        t.date = `10${t.endDate}`;
+    } else if (selectDate[2] === 'month') {
         t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
         t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
         t.date = formatDate(selectDate[0], 'yyyyMM');
-    } else if (selectDate[2] == 'week') {
+    } else if (selectDate[2] === 'week') {
         t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
         t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
         t.date = formatDate(selectDate[0], 'yyyyMM');
         // yuhp 20160708
         // 由于自然周的时间格式改为 99yyyyxx，之前是yyyy99xx
-        t.date = '99' + t.startDate.substring(0, 4) + getWeekOfYear(selectDate[0]);
-    } else if (selectDate[2] == 'day' || selectDate[2] == 'usually') {
-        var temp = formatDate(selectDate[0], 'yyyy-MM-dd');
+        t.date = `99${t.startDate.substring(0, 4)}${getWeekOfYear(selectDate[0])}`;
+    } else if (selectDate[2] === 'day' || selectDate[2] === 'usually') {
+        const temp = formatDate(selectDate[0], 'yyyy-MM-dd');
         t.startDate = temp;
         t.endDate = temp;
         t.date = temp;
-    } else if (selectDate[2] == 'range') {
-        var temp = formatDate(selectDate[0], 'yyyy-MM-dd'),
-            temp2 = formatDate(selectDate[1], 'yyyy-MM-dd');
+    } else if (selectDate[2] === 'range') {
+        const temp = formatDate(selectDate[0], 'yyyy-MM-dd'),
+                temp2 = formatDate(selectDate[1], 'yyyy-MM-dd');
         t.startDate = temp;
         t.endDate = temp2;
         t.date = '';
-    } else if (selectDate[2] == '0') {
-        var temp = formatDate(selectDate[0], 'yyyy-MM-dd'),
-            temp2 = formatDate(selectDate[1], 'yyyy-MM-dd');
+    } else if (selectDate[2] === '0') {
+        const temp = formatDate(selectDate[0], 'yyyy-MM-dd'),
+                temp2 = formatDate(selectDate[1], 'yyyy-MM-dd');
         t.startDate = temp;
         t.endDate = temp2;
         t.date = temp;
     } else if (selectDate[2].indexOf("promotionDay") > -1) {
-        var temp = formatDate(selectDate[0], 'yyyy-MM-dd');
+        const temp = formatDate(selectDate[0], 'yyyy-MM-dd');
         t.startDate = temp;
         t.endDate = temp;
         t.date = temp;
@@ -142,29 +159,15 @@ export function getTimeParam(selectDate) {
     return t;
 }
 
-function getWeekOfYear(today) {
-    var firstDay = new Date(today.getFullYear(), 0, 1),
-        dayOfWeek = firstDay.getDay(),
-        spendDay = 1;
-    if (dayOfWeek != 0) {
-        spendDay = 7 - dayOfWeek + 1;
-    }
-    firstDay = new Date(today.getFullYear(), 0, 1 + spendDay);
-    let d = Math.ceil((today.valueOf() - firstDay.valueOf()) / 86400000),
-        result = Math.ceil(d / 7) + 1;
-    result = result < 10 ? "0" + result : result;
-    return result;
-}
-
 export function getQueryStringArgs() {
-    var qs = (location.search.length > 0 ? location.search.substring(1) : ""),
-        args = {},
-        items = qs.length ? qs.split("&") : [],
-        item = null,
-        name = null,
-        value = null,
-        i = 0,
-        len = items.length;
+    const qs = (location.search.length > 0 ? location.search.substring(1) : ""),
+            args = {},
+            items = qs.length ? qs.split("&") : [],
+            len = items.length;
+    let i = 0,
+            item = null,
+            name = null,
+            value = null;
 
     for (i = 0; i < len; i++) {
         item = items[i].split("=");
