@@ -8,7 +8,7 @@ export default class Datepicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
+            nowValue: props.defaultValue || formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
             selectedValue: '', // 选中时间
             weekText: ['一', '二', '三', '四', '五', '六', '日'],
             openModal: false
@@ -72,6 +72,33 @@ export default class Datepicker extends React.Component {
         });
         onChange && onChange(value);
     }
+    addDayClsName = dayText => {
+        const { nowValue, selectedValue } = this.state;
+        let cls = 'days-con-item';
+        if (dayText === nowValue && dayText === selectedValue) {
+            cls = classNames({
+                'days-con-item': true,
+                'now-selected-active': true
+            });
+        } else if (dayText === selectedValue) {
+            cls = classNames({
+                'days-con-item': true,
+                'selected-active': true
+            });
+        } else if (dayText === nowValue) {
+            cls = classNames({
+                'days-con-item': true,
+                'now-active': true
+            });
+        }
+        return cls;
+    }
+    yearChange = () => {
+
+    }
+    monthChange = () => {
+
+    }
     render() {
         const {
             nowValue, selectedValue, openModal, weekText
@@ -87,7 +114,10 @@ export default class Datepicker extends React.Component {
                 <div className="datepicker-modal" style={{ display: openModal ? 'block' : 'none' }}>
                     <div className="datepicker-modal-top">
                         <span className="top-left"></span>
-                        <span className="top-content">2018-07</span>
+                        <span className="top-content">
+                            <span className="year-change" onClick={this.yearChange}>2018年</span>
+                            <span className="month-change" onClick={this.monthChange}>7月</span>
+                        </span>
                         <span className="top-right"></span>
                     </div>
                     <div className="datepicker-modal-content">
@@ -97,24 +127,8 @@ export default class Datepicker extends React.Component {
                         <div className="days-content">
                             {daysMap.map((
                                 item => {
-                                    const dayText = formatDate(item.day, 'yyyy-MM-dd');
-                                    let cls = 'days-con-item';
-                                    if (dayText === nowValue && dayText === selectedValue) {
-                                        cls = classNames({
-                                            'days-con-item': true,
-                                            'now-selected-active': true
-                                        });
-                                    } else if (dayText === selectedValue) {
-                                        cls = classNames({
-                                            'days-con-item': true,
-                                            'selected-active': true
-                                        });
-                                    } else if (dayText === nowValue) {
-                                        cls = classNames({
-                                            'days-con-item': true,
-                                            'now-active': true
-                                        });
-                                    }
+                                    const dayText = formatDate(item.day, 'yyyy-MM-dd'),
+                                            cls = this.addDayClsName(dayText);
                                     return (
                                         <div
                                             className={cls}
@@ -128,15 +142,18 @@ export default class Datepicker extends React.Component {
                             ))}
                         </div>
                     </div>
+
                 </div>
             </div>
         );
     }
 }
 Datepicker.propTypes = {
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    defaultValue: PropTypes.string
 };
 
 Datepicker.defaultProps = {
-    onChange: () => {}
+    onChange: () => { },
+    defaultValue: ''
 };

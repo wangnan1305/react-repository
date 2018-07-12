@@ -11,6 +11,17 @@ DEMO 介绍
 
 ```jsx
 import { Datepicker } from 'antd-demo'
+class App extends React.Component {
 
-ReactDOM.render(<Datepicker />, mountNode)
+  onChange = value => {
+    console.log(value)
+  }
+
+  render() {
+    return (
+      <Datepicker onChange={this.onChange} defaultValue='2018-07-28'/>
+    );
+  }
+}
+ReactDOM.render(<App />, mountNode)
 ```
