@@ -109,6 +109,8 @@ export default class Datepicker extends React.Component {
         } = this.state;
         const daysMap = this.getDays(new Date());
         const value = selectedValue || nowValue;
+        const navYear = value && `${value.split('-')[0]}年`;
+        const navMonth = value && `${value.split('-')[1]}月`;
         return (
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
@@ -119,8 +121,8 @@ export default class Datepicker extends React.Component {
                     <div className="datepicker-modal-top">
                         <span className="top-left"></span>
                         <span className="top-content">
-                            <span className="year-change" onClick={this.yearChange}>2018年</span>
-                            <span className="month-change" onClick={this.monthChange}>7月</span>
+                            <span className="year-change" onClick={this.yearChange}>{navYear}</span>
+                            <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
                         </span>
                         <span className="top-right"></span>
                     </div>
