@@ -39,7 +39,8 @@ export default class Datepicker extends React.Component {
             for (let i = lastWeek - 1; i >= 0; i--) {
                 daysPre.push({
                     text: preMonthlastDay.getDate() - i,
-                    day: new Date(year, month - 1, (preMonthlastDay.getDate() - i))
+                    day: new Date(year, month - 1, (preMonthlastDay.getDate() - i)),
+                    cls: 'no-active'
                 });
             }
         }
@@ -73,15 +74,17 @@ export default class Datepicker extends React.Component {
         });
         onChange && onChange(value);
     }
-    addDayClsName = dayText => {
+    addDayClsName = item => {
+        const dayText = formatDate(item.day, 'yyyy-MM-dd')
         const { nowValue, selectedValue } = this.state;
         let cls = 'days-con-item';
-        if (dayText === nowValue && dayText === selectedValue) {
+        if(item.cls === 'no-active') {
             cls = classNames({
                 'days-con-item': true,
-                'now-selected-active': true
+                'no-active': true
             });
-        } else if (dayText === selectedValue) {
+        }
+        if (dayText === selectedValue) {
             cls = classNames({
                 'days-con-item': true,
                 'selected-active': true
@@ -128,8 +131,8 @@ export default class Datepicker extends React.Component {
                         <div className="days-content">
                             {daysMap.map((
                                 item => {
-                                    const dayText = formatDate(item.day, 'yyyy-MM-dd'),
-                                        cls = this.addDayClsName(dayText);
+                                    const dayText = formatDate(item.day, 'yyyy-MM-dd');
+                                    const cls = this.addDayClsName(item);
                                     return (
                                         <div
                                             className={cls}
