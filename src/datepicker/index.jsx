@@ -8,8 +8,8 @@ export default class Datepicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nowValue: props.defaultValue || formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
-            selectedValue: '', // 选中时间
+            nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
+            selectedValue: props.defaultValue || '', // 选中时间
             weekText: ['一', '二', '三', '四', '五', '六', '日'],
             openModal: false
         };
@@ -19,13 +19,13 @@ export default class Datepicker extends React.Component {
     // }
     getDays = date => {
         const day = new Date(formatDate(date, 'yyyy-MM-dd')),
-                month = day.getMonth(), // 月份
-                year = day.getFullYear(),
-                preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
-                nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
-                nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
-                lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
-                nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
+            month = day.getMonth(), // 月份
+            year = day.getFullYear(),
+            preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
+            nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
+            nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
+            lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
+            nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
 
         const daysMiddle = [], daysPre = [], daysNext = [];
 
@@ -47,7 +47,8 @@ export default class Datepicker extends React.Component {
             for (let i = 1; i <= 7 - nowWeek; i++) {
                 daysNext.push({
                     text: i,
-                    day: new Date(year, month + 1, i)
+                    day: new Date(year, month + 1, i),
+                    cls: 'no-active'
                 });
             }
         }
@@ -128,7 +129,7 @@ export default class Datepicker extends React.Component {
                             {daysMap.map((
                                 item => {
                                     const dayText = formatDate(item.day, 'yyyy-MM-dd'),
-                                            cls = this.addDayClsName(dayText);
+                                        cls = this.addDayClsName(dayText);
                                     return (
                                         <div
                                             className={cls}

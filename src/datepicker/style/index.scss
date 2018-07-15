@@ -1,4 +1,7 @@
 .react-datepicker{
+    *{
+        box-sizing: border-box;
+    }
     position: relative;
     z-index: 100;
     .datepicker-input{
@@ -18,28 +21,56 @@
     }
     .datepicker-modal{
         position: absolute;
-        width: 180px;
+        width: 220px;
         top: 50px;
         left: 0;
         background: #fff;
-        border: 1px solid #999;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.15);
+        box-shadow: 0 2px 8px rgba(0,0,0,.15);
+        padding: 5px 0 10px;
         z-index: 9999;
         .datepicker-modal-content{
             .week-title{
                 overflow: hidden;
+                width: 200px;
+                margin: 0 auto;
                 .week-title-item{
                     float: left;
-                    width: 25px;
+                    width: 28px;
+                    height: 28px;
+                    line-height: 28px;
+                    text-align: center;
                 }
             }
             .days-content{
                 overflow: hidden;
+                width: 200px;
+                margin: 0 auto;
                 .days-con-item{
                     float: left;
-                    width: 25px;
+                    width: 28px;
+                    height: 28px;
+                    line-height: 28px;
+                    text-align: center;
                     cursor: pointer;
                 }
+                .selected-active,.now-selected-active{
+                    background: #1890ff;
+                    color: #fff;
+                    border: 1px solid transparent;
+                }
+                .now-active{
+                    background: #fff;
+                    color: #1890ff;
+                    border: 1px solid #1890ff;
+                }
             }
+        }
+        .datepicker-modal-top{
+            text-align: center;
+            line-height: 28px;
+            border-bottom: 1px solid #e8e8e8;
         }
     }
 }
