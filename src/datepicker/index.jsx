@@ -19,13 +19,13 @@ export default class Datepicker extends React.Component {
     // }
     getDays = date => {
         const day = new Date(formatDate(date, 'yyyy-MM-dd')),
-            month = day.getMonth(), // 月份
-            year = day.getFullYear(),
-            preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
-            nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
-            nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
-            lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
-            nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
+                month = day.getMonth(), // 月份
+                year = day.getFullYear(),
+                preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
+                nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
+                nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
+                lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
+                nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
 
         const daysMiddle = [], daysPre = [], daysNext = [];
 
@@ -75,10 +75,10 @@ export default class Datepicker extends React.Component {
         onChange && onChange(value);
     }
     addDayClsName = item => {
-        const dayText = formatDate(item.day, 'yyyy-MM-dd')
+        const dayText = formatDate(item.day, 'yyyy-MM-dd');
         const { nowValue, selectedValue } = this.state;
         let cls = 'days-con-item';
-        if(item.cls === 'no-active') {
+        if (item.cls === 'no-active') {
             cls = classNames({
                 'days-con-item': true,
                 'no-active': true
