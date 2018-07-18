@@ -189,7 +189,6 @@ export function classNames(...args) {
         const arg = args[i];
         if (arg) {
             const argType = typeof arg;
-
             if (argType === 'string' || argType === 'number') {
                 classes.push(arg);
             } else if (Array.isArray(arg) && arg.length) {

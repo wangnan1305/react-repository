@@ -11,12 +11,17 @@ export default class Datepicker extends React.Component {
             nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
             selectedValue: props.defaultValue || '', // 选中时间
             weekText: ['一', '二', '三', '四', '五', '六', '日'],
-            openModal: false
+            openModal: false,
+            daysMap: []
         };
     }
-    // componentWillMount() {
-    //     this.getDays();
-    // }
+    componentWillMount() {
+        const { nowValue, selectedValue } = this.state;
+        const value = selectedValue || nowValue;
+        this.setState({
+            daysMap: this.getDays(new Date(value))
+        });
+    }
     getDays = date => {
         const day = new Date(formatDate(date, 'yyyy-MM-dd')),
                 month = day.getMonth(), // 月份
@@ -72,6 +77,9 @@ export default class Datepicker extends React.Component {
             selectedValue: value,
             openModal: false
         });
+        this.setState({
+            daysMap: this.getDays(new Date(value))
+        });
         onChange && onChange(value);
     }
     addDayClsName = item => {
@@ -105,9 +113,8 @@ export default class Datepicker extends React.Component {
     }
     render() {
         const {
-            nowValue, selectedValue, openModal, weekText
+            nowValue, selectedValue, openModal, weekText, daysMap
         } = this.state;
-        const daysMap = this.getDays(new Date());
         const value = selectedValue || nowValue;
         const navYear = value && `${value.split('-')[0]}年`;
         const navMonth = value && `${value.split('-')[1]}月`;
