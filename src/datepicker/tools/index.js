@@ -58,7 +58,25 @@ export function formatDate(date, fmt, flag) {
     }
     return fmt;
 }
+/**
+ * 获取当前日期后n天的单日期
+ * @param {*} date
+ * @param {*} n
+ * @param {*} pattern
+ */
+export function nextDay(date = new Date(), n = 1) {
+    const temDate = new Date(date.getTime());
+    temDate.setDate(temDate.getDate() + n);
+    return temDate;
+}
 
+export function nextDays(date = new Date(), n = 1, pattern = "yyyy-MM-dd") {
+    const temDateArr = [];
+    for (let i = 0; i < n; i++) {
+        temDateArr.push(nextDay(date, i + 1, pattern));
+    }
+    return temDateArr;
+}
 /**
  * 获取当前日期前n天的单日期
  * @param {*} date

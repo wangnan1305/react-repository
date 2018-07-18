@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style/index.scss';
-import { formatDate, classNames } from './tools/index';
+import { formatDate, classNames, nextDay } from './tools/index';
 
 export default class Datepicker extends React.Component {
     constructor(props) {
@@ -10,8 +10,9 @@ export default class Datepicker extends React.Component {
         this.state = {
             nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
             selectedValue: props.defaultValue || '', // 选中时间
-            weekText: ['一', '二', '三', '四', '五', '六', '日'],
+            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
             openModal: false,
+            ctxLine: 6,
             daysMap: []
         };
     }
@@ -23,6 +24,7 @@ export default class Datepicker extends React.Component {
         });
     }
     getDays = date => {
+        const { ctxLine } = this.state;
         const day = new Date(formatDate(date, 'yyyy-MM-dd')),
                 month = day.getMonth(), // 月份
                 year = day.getFullYear(),
@@ -33,7 +35,7 @@ export default class Datepicker extends React.Component {
                 nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
 
         const daysMiddle = [], daysPre = [], daysNext = [];
-
+        let days = [];
         for (let i = 1; i <= nowMonthDays; i++) {
             daysMiddle.push({
                 text: i,
@@ -58,7 +60,18 @@ export default class Datepicker extends React.Component {
                 });
             }
         }
-        return daysPre.concat(daysMiddle).concat(daysNext);
+        days = daysPre.concat(daysMiddle).concat(daysNext);
+        if (days.length < (ctxLine * 7)) {
+            const startDay = days[days.length - 1];
+            for (let i = 1; i <= 7; i++) {
+                days.push({
+                    text: nextDay(startDay.day, i).getDate(),
+                    day: nextDay(startDay.day, i),
+                    cls: 'no-active'
+                });
+            }
+        }
+        return days;
     }
     inputEnter = () => {
         clearTimeout(this.timer);
@@ -74,8 +87,7 @@ export default class Datepicker extends React.Component {
         const value = e.target.dataset.time;
         const { onChange } = this.props;
         this.setState({
-            selectedValue: value,
-            openModal: false
+            selectedValue: value
         });
         this.setState({
             daysMap: this.getDays(new Date(value))
