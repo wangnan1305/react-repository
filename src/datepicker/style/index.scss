@@ -80,6 +80,32 @@
             text-align: center;
             line-height: 28px;
             border-bottom: 1px solid #e8e8e8;
+            span[class*="left"],span[class*="right"]{
+                &:hover{
+                    color: #1890ff;
+                }
+                cursor: pointer;
+            }
+            .top-year-left{
+                &::after{
+                    content: "\AB"
+                }
+            }
+            .top-month-left{
+                &::after{
+                    content: "\2039"
+                }
+            }
+            .top-year-right{
+                &::after{
+                    content: "\BB"
+                }
+            }
+            .top-month-right{
+                &::after{
+                    content: "\203A"
+                }
+            }
         }
     }
 }
