@@ -117,6 +117,9 @@ export default class Datepicker extends React.Component {
         }
         return cls;
     }
+    lastYear = () => {
+        
+    }
     yearChange = () => {
 
     }
@@ -138,14 +141,14 @@ export default class Datepicker extends React.Component {
                 </div>
                 <div className="datepicker-modal" style={{ display: openModal ? 'block' : 'none' }}>
                     <div className="datepicker-modal-top">
-                        <span className="top-year-left" title="上一年"></span>
-                        <span className="top-month-left" title="上个月"></span>
+                        <span className="top-year-left" title="上一年" onClick={this.lastYear}></span>
+                        <span className="top-month-left" title="上个月" onClick={this.lastMonth}></span>
                         <span className="top-content">
                             <span className="year-change" onClick={this.yearChange}>{navYear}</span>
                             <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
                         </span>
-                        <span className="top-month-right" title="下个月"></span>
-                        <span className="top-year-right" title="下一年"></span>
+                        <span className="top-month-right" title="下个月" onClick={this.nextMonth}></span>
+                        <span className="top-year-right" title="下一年" onClick={this.nextYear}></span>
                     </div>
                     <div className="datepicker-modal-content">
                         <div className="week-title">
