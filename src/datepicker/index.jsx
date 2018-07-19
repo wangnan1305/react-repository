@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import './style/index.scss';
 import { formatDate, classNames, nextDay } from './tools/index';
+import './style/index.scss';
 
 export default class Datepicker extends React.Component {
     constructor(props) {
@@ -10,6 +9,7 @@ export default class Datepicker extends React.Component {
         this.state = {
             nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
             selectedValue: props.defaultValue || '', // 选中时间
+            loopValue: props.defaultValue || formatDate(new Date(), 'yyyy-MM-dd'),
             weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
             openModal: false,
             ctxLine: 6,
@@ -117,8 +117,10 @@ export default class Datepicker extends React.Component {
         }
         return cls;
     }
-    lastYear = () => {
-        
+    lastYear = year => {
+        this.setState({
+            daysMap: this.getDays(new Date(`${year}-01-01`))
+        });
     }
     yearChange = () => {
 
@@ -128,7 +130,7 @@ export default class Datepicker extends React.Component {
     }
     render() {
         const {
-            nowValue, selectedValue, openModal, weekText, daysMap
+            nowValue, selectedValue, loopValue, openModal, weekText, daysMap
         } = this.state;
         const value = selectedValue || nowValue;
         const navYear = value && `${value.split('-')[0]}年`;
@@ -141,8 +143,8 @@ export default class Datepicker extends React.Component {
                 </div>
                 <div className="datepicker-modal" style={{ display: openModal ? 'block' : 'none' }}>
                     <div className="datepicker-modal-top">
-                        <span className="top-year-left" title="上一年" onClick={this.lastYear}></span>
-                        <span className="top-month-left" title="上个月" onClick={this.lastMonth}></span>
+                        <span className="top-year-left" title="上一年" onClick={() => this.lastYear(value.split('-')[0])}></span>
+                        <span className="top-month-left" title="上个月" onClick={() => this.lastMonth(value.split('-')[1])}></span>
                         <span className="top-content">
                             <span className="year-change" onClick={this.yearChange}>{navYear}</span>
                             <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
