@@ -117,7 +117,6 @@ export default class Datepicker extends React.Component {
         return cls;
     }
     lastYear = (year, month) => {
-        console.log(typeof year)
         this.setState({
             daysMap: this.getDays(new Date(`${Number(year,10) - 1}-${month}-01`)),
             loopValue: `${year - 1}-${month}-01`
@@ -162,8 +161,8 @@ export default class Datepicker extends React.Component {
                             <span className="year-change" onClick={this.yearChange}>{navYear}</span>
                             <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
                         </span>
-                        <span className="top-month-right" title="下个月" onClick={this.nextMonth}></span>
                         <span className="top-year-right" title="下一年" onClick={this.nextYear}></span>
+                        <span className="top-month-right" title="下个月" onClick={this.nextMonth}></span>
                     </div>
                     <div className="datepicker-modal-content">
                         <div className="week-title">
