@@ -119,7 +119,7 @@ export default class Datepicker extends React.Component {
     lastYear = (year, month) => {
         this.setState({
             daysMap: this.getDays(new Date(`${Number(year,10) - 1}-${month}-01`)),
-            loopValue: `${year - 1}-${month}-01`
+            loopValue: `${Number(year,10) - 1}-${month}-01`
         });
     }
     lastMonth = (year, month) => {
@@ -133,6 +133,24 @@ export default class Datepicker extends React.Component {
             daysMap: this.getDays(new Date(`${year}-${month}-01`)),
             loopValue: `${year}-${month}-01`
         })
+    }
+    nextMonth = (year, month) => {
+        if(month === '12'){
+            year = Number(year) + 1;
+            month = '01';
+        } else {
+            month = (Number(month) + 1) < 10 ? `0${Number(month) + 1}` : `${Number(month) + 1}`;
+        }
+        this.setState({
+            daysMap: this.getDays(new Date(`${year}-${month}-01`)),
+            loopValue: `${year}-${month}-01`
+        })
+    }
+    nextYear = (year, month) => {
+        this.setState({
+            daysMap: this.getDays(new Date(`${Number(year,10) + 1}-${month}-01`)),
+            loopValue: `${Number(year,10) + 1}-${month}-01`
+        });
     }
     yearChange = () => {
 
@@ -161,8 +179,8 @@ export default class Datepicker extends React.Component {
                             <span className="year-change" onClick={this.yearChange}>{navYear}</span>
                             <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
                         </span>
-                        <span className="top-year-right" title="下一年" onClick={this.nextYear}></span>
-                        <span className="top-month-right" title="下个月" onClick={this.nextMonth}></span>
+                        <span className="top-year-right" title="下一年" onClick={() => this.nextYear(value.split('-')[0],value.split('-')[1])}></span>
+                        <span className="top-month-right" title="下个月" onClick={() => this.nextMonth(value.split('-')[0],value.split('-')[1])}></span>
                     </div>
                     <div className="datepicker-modal-content">
                         <div className="week-title">
