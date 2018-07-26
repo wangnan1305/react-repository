@@ -165,13 +165,19 @@ export default class Datepicker extends React.Component {
         const value = loopValue || nowValue;
         const navYear = value && `${value.split('-')[0]}年`;
         const navMonth = value && `${value.split('-')[1]}月`;
+        const modalCls = classNames({
+            "datepicker-modal": true,
+            "over-animate": openModal,
+            "leave-animate": !openModal
+        })
         return (
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
                     <input readOnly type="text" className="c-input" value={selectedValue || nowValue} placeholder="请选择日期" />
                     <span className="datepicker-icon"></span>
                 </div>
-                <div className="datepicker-modal" style={{ display: openModal ? 'block' : 'none' }}>
+                {/*<div className="" style={{ display: openModal ? 'block' : 'none' }}>*/}
+                <div className={modalCls}>
                     <div className="datepicker-modal-top">
                         <span className="top-year-left" title="上一年" onClick={() => this.lastYear(value.split('-')[0],value.split('-')[1])}></span>
                         <span className="top-month-left" title="上个月" onClick={() => this.lastMonth(value.split('-')[0],value.split('-')[1])}></span>
