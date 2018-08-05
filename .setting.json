@@ -1,0 +1,8 @@
+{
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "workbench.iconTheme": "vscode-great-icons",
+    "vsicons.presets.foldersAllDefaultIcon": true,
+    "editor.fontSize": 16,
+    "typescript.experimental.syntaxFolding": false,
+    "editor.foldingStrategy": "indentation"
+}

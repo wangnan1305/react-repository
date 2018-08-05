@@ -118,12 +118,12 @@ export default class Datepicker extends React.Component {
     }
     lastYear = (year, month) => {
         this.setState({
-            daysMap: this.getDays(new Date(`${Number(year,10) - 1}-${month}-01`)),
-            loopValue: `${Number(year,10) - 1}-${month}-01`
+            daysMap: this.getDays(new Date(`${Number(year, 10) - 1}-${month}-01`)),
+            loopValue: `${Number(year, 10) - 1}-${month}-01`
         });
     }
     lastMonth = (year, month) => {
-        if(month === '01'){
+        if (month === '01') {
             year = Number(year) - 1;
             month = '12';
         } else {
@@ -132,10 +132,10 @@ export default class Datepicker extends React.Component {
         this.setState({
             daysMap: this.getDays(new Date(`${year}-${month}-01`)),
             loopValue: `${year}-${month}-01`
-        })
+        });
     }
     nextMonth = (year, month) => {
-        if(month === '12'){
+        if (month === '12') {
             year = Number(year) + 1;
             month = '01';
         } else {
@@ -144,12 +144,12 @@ export default class Datepicker extends React.Component {
         this.setState({
             daysMap: this.getDays(new Date(`${year}-${month}-01`)),
             loopValue: `${year}-${month}-01`
-        })
+        });
     }
     nextYear = (year, month) => {
         this.setState({
-            daysMap: this.getDays(new Date(`${Number(year,10) + 1}-${month}-01`)),
-            loopValue: `${Number(year,10) + 1}-${month}-01`
+            daysMap: this.getDays(new Date(`${Number(year, 10) + 1}-${month}-01`)),
+            loopValue: `${Number(year, 10) + 1}-${month}-01`
         });
     }
     yearChange = () => {
@@ -169,24 +169,23 @@ export default class Datepicker extends React.Component {
             "datepicker-modal": true,
             "over-animate": openModal,
             "leave-animate": !openModal
-        })
+        });
         return (
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
                     <input readOnly type="text" className="c-input" value={selectedValue || nowValue} placeholder="请选择日期" />
                     <span className="datepicker-icon"></span>
                 </div>
-                {/*<div className="" style={{ display: openModal ? 'block' : 'none' }}>*/}
                 <div className={modalCls}>
                     <div className="datepicker-modal-top">
-                        <span className="top-year-left" title="上一年" onClick={() => this.lastYear(value.split('-')[0],value.split('-')[1])}></span>
-                        <span className="top-month-left" title="上个月" onClick={() => this.lastMonth(value.split('-')[0],value.split('-')[1])}></span>
+                        <span className="top-year-left" title="上一年" onClick={() => this.lastYear(value.split('-')[0], value.split('-')[1])}></span>
+                        <span className="top-month-left" title="上个月" onClick={() => this.lastMonth(value.split('-')[0], value.split('-')[1])}></span>
                         <span className="top-content">
                             <span className="year-change" onClick={this.yearChange}>{navYear}</span>
                             <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
                         </span>
-                        <span className="top-year-right" title="下一年" onClick={() => this.nextYear(value.split('-')[0],value.split('-')[1])}></span>
-                        <span className="top-month-right" title="下个月" onClick={() => this.nextMonth(value.split('-')[0],value.split('-')[1])}></span>
+                        <span className="top-year-right" title="下一年" onClick={() => this.nextYear(value.split('-')[0], value.split('-')[1])}></span>
+                        <span className="top-month-right" title="下个月" onClick={() => this.nextMonth(value.split('-')[0], value.split('-')[1])}></span>
                     </div>
                     <div className="datepicker-modal-content">
                         <div className="week-title">
@@ -210,7 +209,6 @@ export default class Datepicker extends React.Component {
                             ))}
                         </div>
                     </div>
-
                 </div>
             </div>
         );

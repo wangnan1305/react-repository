@@ -53,6 +53,7 @@
                     width: 28px;
                     height: 28px;
                     line-height: 28px;
+                    margin-bottom: 5px;
                     text-align: center;
                     cursor: pointer;
                     &:hover{
@@ -62,7 +63,6 @@
                 .selected-active{
                     background: #1890ff;
                     color: #fff;
-                    border: 1px solid transparent;
                     &:hover{
                         background: #1890ff;
                     }
@@ -71,6 +71,7 @@
                     background: #fff;
                     color: #1890ff;
                     border: 1px solid #1890ff;
+                    line-height: 26px;
                 }
                 .no-active{
                     color: rgba(0,0,0,0.25)
@@ -119,7 +120,6 @@
     }
     .over-animate{
         opacity: 1;
-        height: 240px;
     }
     .leave-animate{
         opacity: 0;
