@@ -13,6 +13,7 @@ export default class Datepicker extends React.Component {
             nowValue: formatDate(new Date(), 'yyyy-MM-dd'), // 当前时间
             selectedValue: props.defaultValue || '', // 选中时间
             loopValue: props.defaultValue || formatDate(new Date(), 'yyyy-MM-dd'),
+            dateConfig: props.dateConfig || [],
             // weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
             openModal: false,
             ctxLine: 6,
@@ -167,7 +168,7 @@ export default class Datepicker extends React.Component {
     }
     render() {
         const {
-            nowValue, selectedValue, loopValue, openModal, daysMap, whichSelect
+            nowValue, selectedValue, loopValue, openModal, daysMap, whichSelect, dateConfig
         } = this.state;
         const value = loopValue || nowValue;
         const navYear = value && `${value.split('-')[0]}年`;
@@ -203,7 +204,6 @@ export default class Datepicker extends React.Component {
             default:
                 contentHtml = null;
         }
-
         return (
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
@@ -212,8 +212,7 @@ export default class Datepicker extends React.Component {
                 </div>
                 <div className={modalCls}>
                     <div className="left-switch">
-                        <div className={whichSelect === "day" ? "day-select active" : "day-select"} data-select="day" onClick={this.selectContent} >按日选择</div>
-                        <div className={whichSelect === "week" ? "day-select active" : "day-select"} data-select="week" onClick={this.selectContent}>按周选择</div>
+                        {dateConfig.map(item => <div key={item.value} className={whichSelect === item.value ? "day-select active" : "day-select"} data-select={item.value} onClick={this.selectContent} >{item.name}</div>)}
                     </div>
                     <div className="right-content">
                         {contentHtml}

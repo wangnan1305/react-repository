@@ -12,6 +12,14 @@ DEMO 介绍
 ```jsx
 import { Datepicker } from 'antd-demo'
 class App extends React.Component {
+  
+  constructor(props) {
+      super(props);
+      this.dateConfig = [
+        { value: 'day' , name: '按日查询' },
+        { value: 'week', name: '按周查询' }
+      ]
+  }
 
   onChange = value => {
     console.log(value)
@@ -19,7 +27,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Datepicker onChange={this.onChange} defaultValue='2018-07-28'/>
+      <Datepicker onChange={this.onChange} defaultValue='2018-07-28' dateConfig={this.dateConfig} />
     );
   }
 }
