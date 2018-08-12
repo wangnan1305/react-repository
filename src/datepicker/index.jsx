@@ -26,13 +26,13 @@ export default class Datepicker extends React.Component {
     getDays = date => {
         const { ctxLine } = this.state;
         const day = new Date(formatDate(date, 'yyyy-MM-dd')),
-                month = day.getMonth(), // 月份
-                year = day.getFullYear(),
-                preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
-                nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
-                nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
-                lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
-                nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
+            month = day.getMonth(), // 月份
+            year = day.getFullYear(),
+            preMonthlastDay = new Date(year, month, 0), // 上个月的最后一天
+            nowMonthLastDay = new Date(year, month + 1, 0), // 这个月的最后一天
+            nowMonthDays = new Date(year, month + 1, 0).getDate(), // 这个月总共有多少天
+            lastWeek = preMonthlastDay.getDay(), // 上个月的最后一天是周几
+            nowWeek = nowMonthLastDay.getDay(); // 这个月最后一天是周几
 
         const daysMiddle = [], daysPre = [], daysNext = [];
         let days = [];
@@ -177,36 +177,42 @@ export default class Datepicker extends React.Component {
                     <span className="datepicker-icon"></span>
                 </div>
                 <div className={modalCls}>
-                    <div className="datepicker-modal-top">
-                        <span className="top-year-left" title="上一年" onClick={() => this.lastYear(value.split('-')[0], value.split('-')[1])}></span>
-                        <span className="top-month-left" title="上个月" onClick={() => this.lastMonth(value.split('-')[0], value.split('-')[1])}></span>
-                        <span className="top-content">
-                            <span className="year-change" onClick={this.yearChange}>{navYear}</span>
-                            <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
-                        </span>
-                        <span className="top-year-right" title="下一年" onClick={() => this.nextYear(value.split('-')[0], value.split('-')[1])}></span>
-                        <span className="top-month-right" title="下个月" onClick={() => this.nextMonth(value.split('-')[0], value.split('-')[1])}></span>
+                    <div className="left-switch">
+                        <div className="day-select" data-select="day" onClick={this.selectContent} >按日选择</div>
+                        <div className="day-select" data-select="week" onClick={this.selectContent}>按周选择</div>
                     </div>
-                    <div className="datepicker-modal-content">
-                        <div className="week-title">
-                            {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
+                    <div className="right-content">
+                        <div className="datepicker-modal-top">
+                            <span className="top-year-left" title="上一年" onClick={() => this.lastYear(value.split('-')[0], value.split('-')[1])}></span>
+                            <span className="top-month-left" title="上个月" onClick={() => this.lastMonth(value.split('-')[0], value.split('-')[1])}></span>
+                            <span className="top-content">
+                                <span className="year-change" onClick={this.yearChange}>{navYear}</span>
+                                <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
+                            </span>
+                            <span className="top-year-right" title="下一年" onClick={() => this.nextYear(value.split('-')[0], value.split('-')[1])}></span>
+                            <span className="top-month-right" title="下个月" onClick={() => this.nextMonth(value.split('-')[0], value.split('-')[1])}></span>
                         </div>
-                        <div className="days-content">
-                            {daysMap.map((
-                                item => {
-                                    const dayText = formatDate(item.day, 'yyyy-MM-dd');
-                                    const cls = this.addDayClsName(item);
-                                    return (
-                                        <div
-                                            className={cls}
-                                            data-time={dayText}
-                                            key={dayText}
-                                            onClick={this.clickInput}
-                                        >{item.text}
-                                        </div>
-                                    );
-                                }
-                            ))}
+                        <div className="datepicker-modal-content">
+                            <div className="week-title">
+                                {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
+                            </div>
+                            <div className="days-content">
+                                {daysMap.map((
+                                    item => {
+                                        const dayText = formatDate(item.day, 'yyyy-MM-dd');
+                                        const cls = this.addDayClsName(item);
+                                        return (
+                                            <div
+                                                className={cls}
+                                                data-time={dayText}
+                                                key={dayText}
+                                                onClick={this.clickInput}
+                                            >{item.text}
+                                            </div>
+                                        );
+                                    }
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

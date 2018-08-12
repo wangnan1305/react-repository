@@ -21,7 +21,6 @@
     }
     .datepicker-modal{
         position: absolute;
-        width: 220px;
         top: 50px;
         left: 0;
         background: #fff;
@@ -31,89 +30,107 @@
         transition: opacity 0.2s ease,height 0.1s ease;
         padding: 5px 0 10px;
         z-index: 1000;
-        .datepicker-modal-content{
-            .week-title{
-                overflow: hidden;
-                width: 200px;
-                margin: 0 auto;
-                .week-title-item{
-                    float: left;
-                    width: 28px;
-                    height: 28px;
-                    line-height: 28px;
-                    text-align: center;
-                }
-            }
-            .days-content{
-                overflow: hidden;
-                width: 200px;
-                margin: 0 auto;
-                .days-con-item{
-                    float: left;
-                    width: 28px;
-                    height: 28px;
-                    line-height: 28px;
-                    margin-bottom: 5px;
-                    text-align: center;
-                    cursor: pointer;
-                    &:hover{
-                        background: #e6f7ff;
-                    }
-                }
-                .selected-active{
-                    background: #1890ff;
-                    color: #fff;
-                    &:hover{
-                        background: #1890ff;
-                    }
-                }
-                .now-active{
-                    background: #fff;
-                    color: #1890ff;
-                    border: 1px solid #1890ff;
-                    line-height: 26px;
-                }
-                .no-active{
-                    color: rgba(0,0,0,0.25)
-                }
-            }
-        }
-        .datepicker-modal-top{
+        .left-switch{
+            width: 80px;
+            line-height: 26px;
             text-align: center;
-            line-height: 28px;
-            border-bottom: 1px solid #e8e8e8;
-            span[class*="left"],span[class*="right"]{
+            float: left;
+            margin-top: 60px;
+            .day-select{
+                font-size: 13px;
+                color: #666;
+                cursor: pointer;
                 &:hover{
                     color: #1890ff;
                 }
-                cursor: pointer;
             }
-            .top-year-left{
-                float: left;
-                margin-left: 10px;
-                &::after{
-                    content: "\AB"
+        }
+        .right-content{
+            margin-left: 80px;
+            .datepicker-modal-content{
+                .week-title{
+                    overflow: hidden;
+                    width: 200px;
+                    margin: 0 auto;
+                    .week-title-item{
+                        float: left;
+                        width: 28px;
+                        height: 28px;
+                        line-height: 28px;
+                        text-align: center;
+                    }
+                }
+                .days-content{
+                    overflow: hidden;
+                    width: 200px;
+                    margin: 0 auto;
+                    .days-con-item{
+                        float: left;
+                        width: 28px;
+                        height: 28px;
+                        line-height: 28px;
+                        margin-bottom: 5px;
+                        text-align: center;
+                        cursor: pointer;
+                        &:hover{
+                            background: #e6f7ff;
+                        }
+                    }
+                    .selected-active{
+                        background: #1890ff;
+                        color: #fff;
+                        &:hover{
+                            background: #1890ff;
+                        }
+                    }
+                    .now-active{
+                        background: #fff;
+                        color: #1890ff;
+                        border: 1px solid #1890ff;
+                        line-height: 26px;
+                    }
+                    .no-active{
+                        color: rgba(0,0,0,0.25)
+                    }
                 }
             }
-            .top-month-left{
-                float: left;
-                margin-left: 15px;
-                &::after{
-                    content: "\2039"
+            .datepicker-modal-top{
+                text-align: center;
+                line-height: 28px;
+                border-bottom: 1px solid #e8e8e8;
+                span[class*="left"],span[class*="right"]{
+                    &:hover{
+                        color: #1890ff;
+                    }
+                    cursor: pointer;
                 }
-            }
-            .top-year-right{
-                float: right;
-                margin-right: 15px;
-                &::after{
-                    content: "\BB"
+                .top-year-left{
+                    float: left;
+                    margin-left: 10px;
+                    &::after{
+                        content: "\AB"
+                    }
                 }
-            }
-            .top-month-right{
-                float: right;
-                margin-right: 10px;
-                &::after{
-                    content: "\203A"
+                .top-month-left{
+                    float: left;
+                    margin-left: 15px;
+                    &::after{
+                        content: "\2039"
+                    }
+                }
+                .top-year-right{
+                    float: right;
+                    margin-right: 15px;
+                    &::after{
+                        content: "\BB"
+                    }
+                }
+                .top-month-right{
+                    float: right;
+                    margin-right: 10px;
+                    &::after{
+                        content: "\203A"
+                    }
                 }
             }
         }
@@ -125,4 +142,12 @@
         opacity: 0;
         height: 0px;
     }
+}
+.clearfix::after{
+    content: ".";
+    display: block;
+    clear: both;
+}
+.clearfix{
+    zoom: 1;
 }
