@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDate, classNames, nextDay } from './tools/index';
 import DaySelect from './components/daySelect';
+import WeekSelect from './components/weekSelect';
 
 import './style/index.scss';
 
@@ -15,7 +16,8 @@ export default class Datepicker extends React.Component {
             // weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
             openModal: false,
             ctxLine: 6,
-            daysMap: []
+            daysMap: [],
+            whichSelect: 'day'
         };
     }
     componentWillMount() {
@@ -154,6 +156,9 @@ export default class Datepicker extends React.Component {
             loopValue: `${Number(year, 10) + 1}-${month}-01`
         });
     }
+    selectContent = e => {
+        this.setState({ whichSelect: e.target.dataset.select });
+    }
     yearChange = () => {
 
     }
@@ -162,7 +167,7 @@ export default class Datepicker extends React.Component {
     }
     render() {
         const {
-            nowValue, selectedValue, loopValue, openModal, daysMap
+            nowValue, selectedValue, loopValue, openModal, daysMap, whichSelect
         } = this.state;
         const value = loopValue || nowValue;
         const navYear = value && `${value.split('-')[0]}年`;
@@ -172,6 +177,33 @@ export default class Datepicker extends React.Component {
             "over-animate": openModal,
             "leave-animate": !openModal
         });
+        let contentHtml = null;
+        switch (whichSelect) {
+            case 'day':
+                contentHtml = (<DaySelect
+                    {...{
+                        value,
+                        navYear,
+                        navMonth,
+                        daysMap,
+                        lastYear: this.lastYear,
+                        lastMonth: this.lastMonth,
+                        nextMonth: this.nextMonth,
+                        nextYear: this.nextYear,
+                        clickChange: this.clickInput,
+                        addDayClsName: this.addDayClsName
+                    }}
+                />);
+                break;
+            case 'week':
+                contentHtml = (
+                    <WeekSelect />
+                );
+                break;
+            default:
+                contentHtml = null;
+        }
+
         return (
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
@@ -180,24 +212,11 @@ export default class Datepicker extends React.Component {
                 </div>
                 <div className={modalCls}>
                     <div className="left-switch">
-                        <div className="day-select" data-select="day" onClick={this.selectContent} >按日选择</div>
-                        <div className="day-select" data-select="week" onClick={this.selectContent}>按周选择</div>
+                        <div className={whichSelect === "day" ? "day-select active" : "day-select"} data-select="day" onClick={this.selectContent} >按日选择</div>
+                        <div className={whichSelect === "week" ? "day-select active" : "day-select"} data-select="week" onClick={this.selectContent}>按周选择</div>
                     </div>
                     <div className="right-content">
-                        <DaySelect
-                            {...{
-                                value,
-                                navYear,
-                                navMonth,
-                                daysMap,
-                                lastYear: this.lastYear,
-                                lastMonth: this.lastMonth,
-                                nextMonth: this.nextMonth,
-                                nextYear: this.nextYear,
-                                clickChange: this.clickInput,
-                                addDayClsName: this.addDayClsName
-                            }}
-                        />
+                        {contentHtml}
                     </div>
                 </div>
             </div>
