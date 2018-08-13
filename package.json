@@ -75,7 +75,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.0.0",
-    "react-github-button": "^0.1.11",
+    "react-github-button": "^0.1.11", 
     "react-intl": "^2.4.0",
     "rimraf": "^2.5.4",
     "sass-loader": "^6.0.6",
