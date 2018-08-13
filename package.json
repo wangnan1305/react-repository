@@ -4,6 +4,7 @@
   "description": "a CLI for react components development",
   "main": "index.js",
   "scripts": {
+    "commitmsg": "node ./git-bash/commit-msg.js",
     "build": "node ./build-tools/build.js",
     "gen": "node ./build-tools/gen.js",
     "lint": "",
