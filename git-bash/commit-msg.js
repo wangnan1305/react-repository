@@ -2,7 +2,7 @@ const fs = require('fs');
 const runner = require('unity-git-commit').runner;
 try {
     console.log(__dirname);
-    let message = fs.readFileSync('.git', 'utf-8');
+    let message = fs.readFileSync('./.git', 'utf-8');
     // const lines = message.split('\n');
     // if (!lines[lines.length - 1]) {
     //     lines.pop();
