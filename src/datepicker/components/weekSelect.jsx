@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../tools/index';
+import Common from './common';
 
 export default class WeekSelect extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         };
     }
     componentDidMount() {
@@ -14,11 +14,35 @@ export default class WeekSelect extends React.Component {
     }
 
     render() {
+        const {
+            value, navYear, navMonth, lastMonth, lastYear, nextYear, nextMonth
+        } = this.props;
         return (
-            <div> Week </div>
+            <React.Fragment>
+                <Common
+                    {...{
+                        value,
+                        navYear,
+                        navMonth,
+                        lastMonth,
+                        lastYear,
+                        nextMonth,
+                        nextYear
+                    }}
+                />
+            </React.Fragment>
         );
     }
 }
 WeekSelect.propTypes = {
-    
+    value: PropTypes.string.isRequired,
+    navYear: PropTypes.string.isRequired,
+    navMonth: PropTypes.string.isRequired,
+    daysMap: PropTypes.array.isRequired,
+    clickChange: PropTypes.func.isRequired,
+    addDayClsName: PropTypes.func.isRequired,
+    lastYear: PropTypes.func.isRequired,
+    lastMonth: PropTypes.func.isRequired,
+    nextMonth: PropTypes.func.isRequired,
+    nextYear: PropTypes.func.isRequired
 };

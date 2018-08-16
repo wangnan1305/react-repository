@@ -1,35 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate } from '../tools/index';
+import Common from '../components/common';
 
-export default class DaySelect extends React.Component {
+export default class DaySelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
             weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
         };
     }
-    componentDidMount() {
-
-    }
-
     render() {
         const { weekText } = this.state;
         const {
-            value, navYear, navMonth, daysMap
+            daysMap, value, navYear, navMonth, lastMonth, lastYear, nextYear, nextMonth
         } = this.props;
         return (
             <React.Fragment>
-                <div className="datepicker-modal-top">
-                    <span className="top-year-left" title="上一年" onClick={() => this.props.lastYear(value.split('-')[0], value.split('-')[1])}></span>
-                    <span className="top-month-left" title="上个月" onClick={() => this.props.lastMonth(value.split('-')[0], value.split('-')[1])}></span>
-                    <span className="top-content">
-                        <span className="year-change" onClick={this.yearChange}>{navYear}</span>
-                        <span className="month-change" onClick={this.monthChange}>{navMonth}</span>
-                    </span>
-                    <span className="top-year-right" title="下一年" onClick={() => this.props.nextYear(value.split('-')[0], value.split('-')[1])}></span>
-                    <span className="top-month-right" title="下个月" onClick={() => this.props.nextMonth(value.split('-')[0], value.split('-')[1])}></span>
-                </div>
+                <Common
+                    {...{
+                        value,
+                        navYear,
+                        navMonth,
+                        lastMonth,
+                        lastYear,
+                        nextMonth,
+                        nextYear
+                    }}
+                />
                 <div className="datepicker-modal-content">
                     <div className="week-title">
                         {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
@@ -62,9 +60,9 @@ DaySelect.propTypes = {
     navMonth: PropTypes.string.isRequired,
     daysMap: PropTypes.array.isRequired,
     clickChange: PropTypes.func.isRequired,
+    addDayClsName: PropTypes.func.isRequired,
     lastYear: PropTypes.func.isRequired,
     lastMonth: PropTypes.func.isRequired,
     nextMonth: PropTypes.func.isRequired,
-    nextYear: PropTypes.func.isRequired,
-    addDayClsName: PropTypes.func.isRequired
+    nextYear: PropTypes.func.isRequired
 };

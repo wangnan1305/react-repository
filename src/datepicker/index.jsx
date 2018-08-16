@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate, classNames, nextDay } from './tools/index';
 import DaySelect from './components/daySelect';
@@ -6,7 +6,7 @@ import WeekSelect from './components/weekSelect';
 
 import './style/index.scss';
 
-export default class Datepicker extends React.Component {
+export default class Datepicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,6 @@ export default class Datepicker extends React.Component {
             selectedValue: props.defaultValue || '', // 选中时间
             loopValue: props.defaultValue || formatDate(new Date(), 'yyyy-MM-dd'),
             dateConfig: props.dateConfig || [],
-            // weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
             openModal: false,
             ctxLine: 6,
             daysMap: [],
@@ -198,7 +197,20 @@ export default class Datepicker extends React.Component {
                 break;
             case 'week':
                 contentHtml = (
-                    <WeekSelect />
+                    <WeekSelect
+                        {...{
+                            value,
+                            navYear,
+                            navMonth,
+                            daysMap,
+                            lastYear: this.lastYear,
+                            lastMonth: this.lastMonth,
+                            nextMonth: this.nextMonth,
+                            nextYear: this.nextYear,
+                            clickChange: this.clickInput,
+                            addDayClsName: this.addDayClsName
+                        }}
+                    />
                 );
                 break;
             default:
@@ -223,6 +235,7 @@ export default class Datepicker extends React.Component {
     }
 }
 Datepicker.propTypes = {
+    dateConfig: PropTypes.array.isRequired,
     onChange: PropTypes.func,
     defaultValue: PropTypes.string
 };
