@@ -6,7 +6,7 @@ export default class WeekSelect extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
         };
     }
     componentDidMount() {
@@ -14,9 +14,11 @@ export default class WeekSelect extends React.Component {
     }
 
     render() {
+        const { weekText } = this.state;
         const {
-            value, navYear, navMonth, lastMonth, lastYear, nextYear, nextMonth
+            value, navYear, navMonth, lastMonth, lastYear, nextYear, nextMonth, daysMap
         } = this.props;
+        console.log(daysMap);
         return (
             <React.Fragment>
                 <Common
@@ -30,6 +32,14 @@ export default class WeekSelect extends React.Component {
                         nextYear
                     }}
                 />
+                <div className="datepicker-modal-content">
+                    <div className="week-title">
+                        {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
+                    </div>
+                    <div className="days-content">
+                        
+                    </div>
+                </div>
             </React.Fragment>
         );
     }
