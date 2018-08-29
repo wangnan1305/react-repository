@@ -7,7 +7,7 @@ const pkg = utils.getPackageInfo();
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-    port: 8081,
+    port: 9000,
     source: {
         introduce: './readme.md',
         components: './src'

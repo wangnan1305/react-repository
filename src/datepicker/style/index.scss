@@ -96,6 +96,24 @@
                         color: rgba(0,0,0,0.25)
                     }
                 }
+                .weeks-content{
+                    .week-item{
+                        overflow: hidden;
+                        &:hover{
+                            background: #e6f7ff;
+                        }
+                        .week-con-item{
+                            float: left;
+                            width: 14%;
+                            height: 28px;
+                            line-height: 28px;
+                            margin-bottom: 5px;
+                            text-align: center;
+                            cursor: pointer;
+                        }
+                    }
+                    
+                }
             }
             .datepicker-modal-top{
                 text-align: center;
@@ -146,9 +164,10 @@
         height: 0px;
     }
 }
-.clearfix::after{
-    content: ".";
+.clearfix::before{
+    content: "";
     display: block;
+    height: 0;
     clear: both;
 }
 .clearfix{

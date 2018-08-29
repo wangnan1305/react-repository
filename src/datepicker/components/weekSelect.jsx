@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDate } from '../tools/index';
 import Common from './common';
 
 export default class WeekSelect extends React.Component {
@@ -12,7 +13,36 @@ export default class WeekSelect extends React.Component {
     componentDidMount() {
 
     }
+    weekClickChange = () => {
+    }
+    generateDom = daysMap => {
+        let line = 0;
+        const html = [];
+        while (line < 6) {
+            const weekctx = [];
+            for (let i = line * 7; i < (line + 1) * 7; i++) {
+                const dayText = formatDate(daysMap[i].day, 'yyyy-MM-dd');
+                weekctx.push((
+                    <div
+                        className="week-con-item"
+                        data-time={dayText}
+                        key={dayText}
+                    >{daysMap[i].text}
+                    </div>
+                ));
+            }
+            const weekHtml = (
+                <div className="week-item" onClick={this.weekClickChange}>
+                    {weekctx}
+                </div>
+            );
 
+            html.push(weekHtml);
+            line++;
+        }
+        console.log(html);
+        return html;
+    }
     render() {
         const { weekText } = this.state;
         const {
@@ -36,8 +66,8 @@ export default class WeekSelect extends React.Component {
                     <div className="week-title">
                         {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
                     </div>
-                    <div className="days-content">
-                        
+                    <div className="weeks-content">
+                        {this.generateDom(daysMap)}
                     </div>
                 </div>
             </React.Fragment>
