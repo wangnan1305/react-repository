@@ -182,9 +182,9 @@ export default class Datepicker extends Component {
         const navYear = value && `${value.split('-')[0]}年`;
         const navMonth = value && `${value.split('-')[1]}月`;
         const modalCls = classNames({
-            "datepicker-modal": true,
-            "over-animate": openModal,
-            "leave-animate": !openModal
+            'datepicker-modal': true,
+            'over-animate': openModal,
+            'leave-animate': !openModal
         });
         let contentHtml = null;
         switch (whichSelect) {
@@ -233,7 +233,7 @@ export default class Datepicker extends Component {
                 </div>
                 <div className={modalCls}>
                     <div className="left-switch">
-                        {dateConfig.map(item => <div key={item.value} className={whichSelect === item.value ? "day-select active" : "day-select"} data-select={item.value} onClick={this.selectContent} >{item.name}</div>)}
+                        {dateConfig.map(item => <div key={item.value} className={whichSelect === item.value ? 'day-select active' : 'day-select'} data-select={item.value} onClick={this.selectContent} >{item.name}</div>)}
                     </div>
                     <div className="right-content">
                         {contentHtml}

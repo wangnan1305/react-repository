@@ -1,22 +1,29 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../tools/index';
+import { formatDate, classNames } from '../tools/index';
 import Common from './common';
 
 export default class WeekSelect extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
+            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+            startData: null,
+            endData: null
         };
     }
     weekClickChange = e => {
         const { clickChange } = this.props;
+        this.setState({
+            startData: e.target.parentNode.dataset.start,
+            endData: e.target.parentNode.dataset.end
+        });
         clickChange(e, 'week');
     }
     generateDom = daysMap => {
-        let line = 0;
+        const { startData, endData } = this.state;
         const html = [];
+        let line = 0;
         while (line < 6) {
             const weekctx = [];
             for (let i = line * 7; i < (line + 1) * 7; i++) {
@@ -30,14 +37,17 @@ export default class WeekSelect extends PureComponent {
                     </div>
                 ));
             }
-            const cls = this.props.addDayClsName(`${weekctx[0].key} 至 ${weekctx[6].key}`, 'week');
+            let cls = 'week-item';
+            if (startData === weekctx[0].key && endData === weekctx[6].key) {
+                cls = classNames(cls, { 'selected-active': true });
+            }
             const weekHtml = (
                 // "week-item"
                 <div className={cls} key={`${weekctx[0].key}-${weekctx[6].key}`} data-start={weekctx[0].key} data-end={weekctx[6].key} onClick={this.weekClickChange}>
                     {weekctx}
                 </div>
             );
-
+            cls = null;
             html.push(weekHtml);
             line++;
         }
