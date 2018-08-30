@@ -15,10 +15,14 @@ class App extends React.Component {
   
   constructor(props) {
       super(props);
-      this.dateConfig = [
-        { value: 'day' , name: '按日查询' },
-        { value: 'week', name: '按周查询' }
-      ]
+      this.config = {
+        dateConfig: [
+          { value: 'day' , name: '按日查询' },
+          { value: 'week', name: '按周查询' }
+        ],
+        onChange: this.onChange,
+        defaultValue: '2018-07-28'
+      }
   }
 
   onChange = value => {
@@ -26,8 +30,9 @@ class App extends React.Component {
   }
 
   render() {
+    const config = this.config; 
     return (
-      <Datepicker onChange={this.onChange} defaultValue='2018-07-28' dateConfig={this.dateConfig} />
+      <Datepicker {...config}/>
     );
   }
 }

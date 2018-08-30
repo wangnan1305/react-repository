@@ -1,3 +1,9 @@
+/**
+ * 格式化日期
+ * @param {*} date
+ * @param {*} fmt
+ * @param {*} flag
+ */
 export function formatDate(date, fmt, flag) {
     if (!date) return '';
     let hour = 0;
@@ -9,31 +15,31 @@ export function formatDate(date, fmt, flag) {
         hour = date.getHours() % 12;
     }
     const o = {
-        "M+": date.getMonth() + 1,
-        "d+": date.getDate(),
-        "h+": hour,
-        "H+": date.getHours(),
-        "m+": date.getMinutes(),
-        "s+": date.getSeconds(),
-        "q+": Math.floor((date.getMonth() + 3) / 3)
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': hour,
+        'H+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds(),
+        'q+': Math.floor((date.getMonth() + 3) / 3)
     };
     const week = {
-        "0": "\u65e5",
-        "1": "\u4e00",
-        "2": "\u4e8c",
-        "3": "\u4e09",
-        "4": "\u56db",
-        "5": "\u4e94",
-        "6": "\u516d"
+        '0': '\u65e5',
+        '1': '\u4e00',
+        '2': '\u4e8c',
+        '3': '\u4e09',
+        '4': '\u56db',
+        '5': '\u4e94',
+        '6': '\u516d'
     };
     if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (`${date.getFullYear()}`).substr(4 - RegExp.$1.length));
     }
 
     if (/(E+)/.test(fmt)) {
-        let str = "";
+        let str = '';
         if (RegExp.$1.length > 1) {
-            str = RegExp.$1.length > 2 ? "\u661f\u671f" : "\u5468";
+            str = RegExp.$1.length > 2 ? '\u661f\u671f' : '\u5468';
         }
         fmt = fmt.replace(RegExp.$1, str + week[`${date.getDay()}`]);
     }
@@ -56,7 +62,7 @@ export function nextDay(date = new Date(), n = 1) {
     return temDate;
 }
 
-export function nextDays(date = new Date(), n = 1, pattern = "yyyy-MM-dd") {
+export function nextDays(date = new Date(), n = 1, pattern = 'yyyy-MM-dd') {
     const temDateArr = [];
     for (let i = 0; i < n; i++) {
         temDateArr.push(nextDay(date, i + 1, pattern));
@@ -75,7 +81,7 @@ export function previousDay(date = new Date(), n = 1) {
     return temDate;
 }
 
-export function previousDays(date = new Date(), n = 1, pattern = "yyyy-MM-dd") {
+export function previousDays(date = new Date(), n = 1, pattern = 'yyyy-MM-dd') {
     const temDateArr = [];
     for (let i = 0; i < n; i++) {
         temDateArr.push(previousDay(date, i + 1, pattern));
@@ -97,20 +103,6 @@ export function convertDyadicArray(arr, row) {
         dyadicArray.push(arr.slice(i * row, (i + 1) * row));
     }
     return dyadicArray;
-}
-function getWeekOfYear(today) {
-    let firstDay = new Date(today.getFullYear(), 0, 1), spendDay = 1;
-    const dayOfWeek = firstDay.getDay();
-    if (dayOfWeek !== 0) {
-        spendDay = (7 - dayOfWeek) + 1;
-    }
-    firstDay = new Date(today.getFullYear(), 0, 1 + spendDay);
-
-    const d = Math.ceil((today.valueOf() - firstDay.valueOf()) / 86400000);
-    let result = Math.ceil(d / 7) + 1;
-
-    result = result < 10 ? `0${result}` : result;
-    return result;
 }
 
 export function classNames(...args) {
