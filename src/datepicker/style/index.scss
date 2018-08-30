@@ -97,6 +97,13 @@
                     }
                 }
                 .weeks-content{
+                    .selected-active{
+                        background: #1890ff;
+                        color: #fff;
+                        &:hover{
+                            background: #1890ff;
+                        }
+                    }
                     .week-item{
                         overflow: hidden;
                         &:hover{

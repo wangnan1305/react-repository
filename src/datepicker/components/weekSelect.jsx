@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate } from '../tools/index';
 import Common from './common';
 
-export default class WeekSelect extends React.Component {
+export default class WeekSelect extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
         };
     }
-    componentDidMount() {
-
-    }
-    weekClickChange = () => {
+    weekClickChange = e => {
+        const { clickChange } = this.props;
+        clickChange(e, 'week');
     }
     generateDom = daysMap => {
         let line = 0;
@@ -31,8 +30,10 @@ export default class WeekSelect extends React.Component {
                     </div>
                 ));
             }
+            const cls = this.props.addDayClsName(`${weekctx[0].key} 至 ${weekctx[6].key}`, 'week');
             const weekHtml = (
-                <div className="week-item" onClick={this.weekClickChange}>
+                // "week-item"
+                <div className={cls} key={`${weekctx[0].key}-${weekctx[6].key}`} data-start={weekctx[0].key} data-end={weekctx[6].key} onClick={this.weekClickChange}>
                     {weekctx}
                 </div>
             );
@@ -40,7 +41,6 @@ export default class WeekSelect extends React.Component {
             html.push(weekHtml);
             line++;
         }
-        console.log(html);
         return html;
     }
     render() {
@@ -48,7 +48,6 @@ export default class WeekSelect extends React.Component {
         const {
             value, navYear, navMonth, lastMonth, lastYear, nextYear, nextMonth, daysMap
         } = this.props;
-        console.log(daysMap);
         return (
             <React.Fragment>
                 <Common

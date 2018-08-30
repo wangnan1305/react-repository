@@ -10,6 +10,10 @@ export default class DaySelect extends Component {
             weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
         };
     }
+    dayClickChange = e => {
+        const { clickChange } = this.props;
+        clickChange(e, 'day');
+    }
     render() {
         const { weekText } = this.state;
         const {
@@ -36,13 +40,13 @@ export default class DaySelect extends Component {
                         {daysMap.map((
                             item => {
                                 const dayText = formatDate(item.day, 'yyyy-MM-dd');
-                                const cls = this.props.addDayClsName(item);
+                                const cls = this.props.addDayClsName(item, 'day');
                                 return (
                                     <div
                                         className={cls}
                                         data-time={dayText}
                                         key={dayText}
-                                        onClick={this.props.clickChange}
+                                        onClick={this.dayClickChange}
                                     >{item.text}
                                     </div>
                                 );

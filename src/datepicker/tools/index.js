@@ -1,17 +1,3 @@
-/**
- * 对Date的扩展，将 Date 转化为指定格式的String
- * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符
- * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
- * eg:
- * Utils.formatDate(new Date(),'yyyy-MM-dd') ==> 2014-03-02
- * Utils.formatDate(new Date(),'yyyy-MM-dd hh:mm') ==> 2014-03-02 05:04
- * Utils.formatDate(new Date(),'yyyy-MM-dd HH:mm') ==> 2014-03-02 17:04
- * Utils.formatDate(new Date(),'yyyy-MM-dd hh:mm:ss.S') ==> 2006-07-02 08:09:04.423
- * Utils.formatDate(new Date(),'yyyy-MM-dd E HH:mm:ss') ==> 2009-03-10 二 20:09:04
- * Utils.formatDate(new Date(),'yyyy-MM-dd EE hh:mm:ss') ==> 2009-03-10 周二 08:09:04
- * Utils.formatDate(new Date(),'yyyy-MM-dd EEE hh:mm:ss') ==> 2009-03-10 星期二 08:09:04
- * Utils.formatDate(new Date(),'yyyy-M-d h:m:s.S') ==> 2006-7-2 8:9:4.18
- */
 export function formatDate(date, fmt, flag) {
     if (!date) return '';
     let hour = 0;
@@ -23,13 +9,13 @@ export function formatDate(date, fmt, flag) {
         hour = date.getHours() % 12;
     }
     const o = {
-        "M+": date.getMonth() + 1, // 月份
-        "d+": date.getDate(), // 日
-        "h+": hour, // 小时
-        "H+": date.getHours(), // 小时
-        "m+": date.getMinutes(), // 分
-        "s+": date.getSeconds(), // 秒
-        "q+": Math.floor((date.getMonth() + 3) / 3) // 季度
+        "M+": date.getMonth() + 1,
+        "d+": date.getDate(),
+        "h+": hour,
+        "H+": date.getHours(),
+        "m+": date.getMinutes(),
+        "s+": date.getSeconds(),
+        "q+": Math.floor((date.getMonth() + 3) / 3)
     };
     const week = {
         "0": "\u65e5",
@@ -126,79 +112,6 @@ function getWeekOfYear(today) {
     result = result < 10 ? `0${result}` : result;
     return result;
 }
-export function getTimeParam(selectDate) {
-    const t = {};
-    if (/* selectDate[2] == 1 || */selectDate[2] === 7 || selectDate[2] === 15 || selectDate[2] === 30 || selectDate[2] === 90 || selectDate[2] === 1 || selectDate[2] === 365) {
-        t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
-        t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
-        if (selectDate[2] === 1) {
-            t.date = t.endDate;
-        } else {
-            t.date = selectDate[2] + t.endDate;
-        }
-    } else if (selectDate[2] === "dayRange") {
-        t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
-        t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
-        t.date = `10${t.endDate}`;
-    } else if (selectDate[2] === 'month') {
-        t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
-        t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
-        t.date = formatDate(selectDate[0], 'yyyyMM');
-    } else if (selectDate[2] === 'week') {
-        t.startDate = formatDate(selectDate[0], 'yyyy-MM-dd');
-        t.endDate = formatDate(selectDate[1], 'yyyy-MM-dd');
-        t.date = formatDate(selectDate[0], 'yyyyMM');
-        // yuhp 20160708
-        // 由于自然周的时间格式改为 99yyyyxx，之前是yyyy99xx
-        t.date = `99${t.startDate.substring(0, 4)}${getWeekOfYear(selectDate[0])}`;
-    } else if (selectDate[2] === 'day' || selectDate[2] === 'usually') {
-        const temp = formatDate(selectDate[0], 'yyyy-MM-dd');
-        t.startDate = temp;
-        t.endDate = temp;
-        t.date = temp;
-    } else if (selectDate[2] === 'range') {
-        const temp = formatDate(selectDate[0], 'yyyy-MM-dd'),
-                temp2 = formatDate(selectDate[1], 'yyyy-MM-dd');
-        t.startDate = temp;
-        t.endDate = temp2;
-        t.date = '';
-    } else if (selectDate[2] === '0') {
-        const temp = formatDate(selectDate[0], 'yyyy-MM-dd'),
-                temp2 = formatDate(selectDate[1], 'yyyy-MM-dd');
-        t.startDate = temp;
-        t.endDate = temp2;
-        t.date = temp;
-    } else if (selectDate[2].indexOf("promotionDay") > -1) {
-        const temp = formatDate(selectDate[0], 'yyyy-MM-dd');
-        t.startDate = temp;
-        t.endDate = temp;
-        t.date = temp;
-    }
-    return t;
-}
-
-export function getQueryStringArgs() {
-    const qs = (location.search.length > 0 ? location.search.substring(1) : ""),
-            args = {},
-            items = qs.length ? qs.split("&") : [],
-            len = items.length;
-    let i = 0,
-            item = null,
-            name = null,
-            value = null;
-
-    for (i = 0; i < len; i++) {
-        item = items[i].split("=");
-        name = decodeURIComponent(item[0]);
-        value = decodeURIComponent(item[1]);
-        if (name.length) {
-            args[name] = value;
-        }
-    }
-
-    return args;
-}
-
 
 export function classNames(...args) {
     const classes = [];

@@ -77,26 +77,25 @@ export default class Datepicker extends Component {
         }
         return days;
     }
-    addDayClsName = item => {
-        const dayText = formatDate(item.day, 'yyyy-MM-dd');
+    addDayClsName = (item, type) => {
         const { nowValue, selectedValue } = this.state;
-        let cls = 'days-con-item';
-        if (item.cls === 'no-active') {
-            cls = classNames({
-                'days-con-item': true,
-                'no-active': true
-            });
-        }
-        if (dayText === selectedValue) {
-            cls = classNames({
-                'days-con-item': true,
-                'selected-active': true
-            });
-        } else if (dayText === nowValue) {
-            cls = classNames({
-                'days-con-item': true,
-                'now-active': true
-            });
+        let cls = null;
+        if (type === 'day') {
+            const dayText = formatDate(item.day, 'yyyy-MM-dd');
+            cls = 'days-con-item';
+            if (item.cls === 'no-active') {
+                cls = classNames(cls, { 'no-active': true });
+            }
+            if (dayText === selectedValue) {
+                cls = classNames(cls, { 'selected-active': true });
+            } else if (dayText === nowValue) {
+                cls = classNames(cls, { 'now-active': true });
+            }
+        } else if (type === 'week') {
+            cls = 'week-item';
+            if (item === selectedValue) {
+                cls = classNames(cls, { 'selected-active': true });
+            }
         }
         return cls;
     }
@@ -110,14 +109,24 @@ export default class Datepicker extends Component {
             this.setState({ openModal: false });
         }, 300);
     }
-    clickInput = e => {
-        const value = e.target.dataset.time;
+    clickInput = (e, type) => {
+        let value = null;
         const { onChange } = this.props;
-        this.setState({
-            selectedValue: value,
-            loopValue: value,
-            daysMap: this.getDays(new Date(value))
-        });
+        if (type === 'week') {
+            let data = e.target.parentNode.dataset;
+            value = `${data.start} 至 ${data.end}`;
+            this.setState({
+                selectedValue: value
+            });
+            data = null;
+        } else if (type === 'day') {
+            value = e.target.dataset.time;
+            this.setState({
+                selectedValue: `${value}`,
+                loopValue: value,
+                daysMap: this.getDays(new Date(value))
+            });
+        }
         onChange && onChange(value);
     }
     lastYear = (year, month) => {
