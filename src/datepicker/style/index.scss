@@ -4,7 +4,9 @@
     }
     position: relative;
     z-index: 100;
+    width: 270px;
     .datepicker-input{
+        position: relative;
         .c-input{
             width: 100%;
             height: 36px;
@@ -17,6 +19,18 @@
             border: 1px solid rgb(213, 224, 242);
             border-image: initial;
             box-sizing: border-box;
+        }
+        .datepicker-icon{
+            position: absolute;
+            top: 7px;
+            right: 10px;
+            .icon{
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background: url(../img/icon.png) no-repeat;
+                background-size: 100%;
+            }
         }
     }
     .datepicker-modal{
@@ -99,6 +113,7 @@
                 .weeks-content{
                     .week-item{
                         overflow: hidden;
+                        margin-bottom: 5px;
                         &:hover{
                             background: #e6f7ff;
                         }
@@ -107,18 +122,14 @@
                             width: 14%;
                             height: 28px;
                             line-height: 28px;
-                            margin-bottom: 5px;
                             text-align: center;
                             cursor: pointer;
                         }
                     }
                     .selected-active{
-                        background: #1890ff;
-                        color: #fff;
-                        &:hover{
+                        .week-con-item{
                             background: #1890ff;
-                        }
-                        .week-item{
+                            color: #fff;
                             &:hover{
                                 background: #1890ff;
                             }

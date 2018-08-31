@@ -89,7 +89,6 @@ WeekSelect.propTypes = {
     navMonth: PropTypes.string.isRequired,
     daysMap: PropTypes.array.isRequired,
     clickChange: PropTypes.func.isRequired,
-    addDayClsName: PropTypes.func.isRequired,
     lastYear: PropTypes.func.isRequired,
     lastMonth: PropTypes.func.isRequired,
     nextMonth: PropTypes.func.isRequired,

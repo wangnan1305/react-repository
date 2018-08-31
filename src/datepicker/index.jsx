@@ -77,28 +77,6 @@ export default class Datepicker extends Component {
         }
         return days;
     }
-    addDayClsName = (item, type) => {
-        const { nowValue, selectedValue } = this.state;
-        let cls = null;
-        if (type === 'day') {
-            const dayText = formatDate(item.day, 'yyyy-MM-dd');
-            cls = 'days-con-item';
-            if (item.cls === 'no-active') {
-                cls = classNames(cls, { 'no-active': true });
-            }
-            if (dayText === selectedValue) {
-                cls = classNames(cls, { 'selected-active': true });
-            } else if (dayText === nowValue) {
-                cls = classNames(cls, { 'now-active': true });
-            }
-        } else if (type === 'week') {
-            cls = 'week-item';
-            if (item === selectedValue) {
-                cls = classNames(cls, { 'selected-active': true });
-            }
-        }
-        return cls;
-    }
     inputEnter = () => {
         clearTimeout(this.timer);
         this.setState({ openModal: true });
@@ -195,12 +173,13 @@ export default class Datepicker extends Component {
                         navYear,
                         navMonth,
                         daysMap,
+                        selectedValue,
+                        nowValue,
                         lastYear: this.lastYear,
                         lastMonth: this.lastMonth,
                         nextMonth: this.nextMonth,
                         nextYear: this.nextYear,
-                        clickChange: this.clickInput,
-                        addDayClsName: this.addDayClsName
+                        clickChange: this.clickInput
                     }}
                 />);
                 break;
@@ -229,7 +208,9 @@ export default class Datepicker extends Component {
             <div className="react-datepicker" onMouseEnter={this.inputEnter} onMouseLeave={this.inputLeave}>
                 <div className="datepicker-input">
                     <input readOnly type="text" className="c-input" value={selectedValue || nowValue} placeholder="请选择日期" />
-                    <span className="datepicker-icon"></span>
+                    <span className="datepicker-icon">
+                        <i className="icon"></i>
+                    </span>
                 </div>
                 <div className={modalCls}>
                     <div className="left-switch">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../tools/index';
+import { formatDate, classNames } from '../tools/index';
 import Common from '../components/common';
 
 export default class DaySelect extends Component {
@@ -13,6 +13,20 @@ export default class DaySelect extends Component {
     dayClickChange = e => {
         const { clickChange } = this.props;
         clickChange(e, 'day');
+    }
+    addDayClsName = item => {
+        const { nowValue, selectedValue } = this.props;
+        const dayText = formatDate(item.day, 'yyyy-MM-dd');
+        let cls = 'days-con-item';
+        if (item.cls === 'no-active') {
+            cls = classNames(cls, { 'no-active': true });
+        }
+        if (dayText === selectedValue) {
+            cls = classNames(cls, { 'selected-active': true });
+        } else if (dayText === nowValue) {
+            cls = classNames(cls, { 'now-active': true });
+        }
+        return cls;
     }
     render() {
         const { weekText } = this.state;
@@ -40,7 +54,7 @@ export default class DaySelect extends Component {
                         {daysMap.map((
                             item => {
                                 const dayText = formatDate(item.day, 'yyyy-MM-dd');
-                                const cls = this.props.addDayClsName(item, 'day');
+                                const cls = this.addDayClsName(item, 'day');
                                 return (
                                     <div
                                         className={cls}
@@ -59,6 +73,8 @@ export default class DaySelect extends Component {
     }
 }
 DaySelect.propTypes = {
+    nowValue: PropTypes.string.isRequired,
+    selectedValue: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     navYear: PropTypes.string.isRequired,
     navMonth: PropTypes.string.isRequired,
