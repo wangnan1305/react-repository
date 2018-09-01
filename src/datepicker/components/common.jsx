@@ -56,9 +56,5 @@ Common.propTypes = {
     navClick: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
     navYear: PropTypes.string.isRequired,
-    navMonth: PropTypes.string.isRequired,
-    lastYear: PropTypes.func.isRequired,
-    lastMonth: PropTypes.func.isRequired,
-    nextMonth: PropTypes.func.isRequired,
-    nextYear: PropTypes.func.isRequired
+    navMonth: PropTypes.string.isRequired
 };
