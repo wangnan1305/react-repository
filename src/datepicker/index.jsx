@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { formatDate, classNames, nextDay } from './tools/index';
 import DaySelect from './components/daySelect';
 import WeekSelect from './components/weekSelect';
+import Common from './components/common';
 
 import './style/index.scss';
 
@@ -107,50 +108,14 @@ export default class Datepicker extends Component {
         }
         onChange && onChange(value);
     }
-    lastYear = (year, month) => {
+    navClick = (data, value) => {
         this.setState({
-            daysMap: this.getDays(new Date(`${Number(year, 10) - 1}-${month}-01`)),
-            loopValue: `${Number(year, 10) - 1}-${month}-01`
-        });
-    }
-    lastMonth = (year, month) => {
-        if (month === '01') {
-            year = Number(year) - 1;
-            month = '12';
-        } else {
-            month = (Number(month) - 1) < 10 ? `0${Number(month) - 1}` : `${Number(month) - 1}`;
-        }
-        this.setState({
-            daysMap: this.getDays(new Date(`${year}-${month}-01`)),
-            loopValue: `${year}-${month}-01`
-        });
-    }
-    nextMonth = (year, month) => {
-        if (month === '12') {
-            year = Number(year) + 1;
-            month = '01';
-        } else {
-            month = (Number(month) + 1) < 10 ? `0${Number(month) + 1}` : `${Number(month) + 1}`;
-        }
-        this.setState({
-            daysMap: this.getDays(new Date(`${year}-${month}-01`)),
-            loopValue: `${year}-${month}-01`
-        });
-    }
-    nextYear = (year, month) => {
-        this.setState({
-            daysMap: this.getDays(new Date(`${Number(year, 10) + 1}-${month}-01`)),
-            loopValue: `${Number(year, 10) + 1}-${month}-01`
+            daysMap: this.getDays(data),
+            loopValue: value
         });
     }
     selectContent = e => {
         this.setState({ whichSelect: e.target.dataset.select });
-    }
-    yearChange = () => {
-
-    }
-    monthChange = () => {
-
     }
     render() {
         const {
@@ -175,10 +140,6 @@ export default class Datepicker extends Component {
                         daysMap,
                         selectedValue,
                         nowValue,
-                        lastYear: this.lastYear,
-                        lastMonth: this.lastMonth,
-                        nextMonth: this.nextMonth,
-                        nextYear: this.nextYear,
                         clickChange: this.clickInput
                     }}
                 />);
@@ -191,10 +152,6 @@ export default class Datepicker extends Component {
                             navYear,
                             navMonth,
                             daysMap,
-                            lastYear: this.lastYear,
-                            lastMonth: this.lastMonth,
-                            nextMonth: this.nextMonth,
-                            nextYear: this.nextYear,
                             clickChange: this.clickInput,
                             addDayClsName: this.addDayClsName
                         }}
@@ -217,6 +174,18 @@ export default class Datepicker extends Component {
                         {dateConfig.map(item => <div key={item.value} className={whichSelect === item.value ? 'day-select active' : 'day-select'} data-select={item.value} onClick={this.selectContent} >{item.name}</div>)}
                     </div>
                     <div className="right-content">
+                        <Common
+                            {...{
+                                value,
+                                navYear,
+                                navMonth,
+                                navClick: this.navClick,
+                                lastMonth: this.lastMonth,
+                                lastYear: this.lastYear,
+                                nextMonth: this.nextMonth,
+                                nextYear: this.nextYear
+                            }}
+                        />
                         {contentHtml}
                     </div>
                 </div>

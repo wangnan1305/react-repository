@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate, classNames } from '../tools/index';
-import Common from './common';
 
 export default class WeekSelect extends PureComponent {
     constructor(props) {
@@ -55,22 +54,9 @@ export default class WeekSelect extends PureComponent {
     }
     render() {
         const { weekText } = this.state;
-        const {
-            value, navYear, navMonth, lastMonth, lastYear, nextYear, nextMonth, daysMap
-        } = this.props;
+        const { daysMap } = this.props;
         return (
             <React.Fragment>
-                <Common
-                    {...{
-                        value,
-                        navYear,
-                        navMonth,
-                        lastMonth,
-                        lastYear,
-                        nextMonth,
-                        nextYear
-                    }}
-                />
                 <div className="datepicker-modal-content">
                     <div className="week-title">
                         {weekText.map((item, index) => <div className="week-title-item" key={`n${index}`}>{item}</div>)}
@@ -84,13 +70,6 @@ export default class WeekSelect extends PureComponent {
     }
 }
 WeekSelect.propTypes = {
-    value: PropTypes.string.isRequired,
-    navYear: PropTypes.string.isRequired,
-    navMonth: PropTypes.string.isRequired,
     daysMap: PropTypes.array.isRequired,
-    clickChange: PropTypes.func.isRequired,
-    lastYear: PropTypes.func.isRequired,
-    lastMonth: PropTypes.func.isRequired,
-    nextMonth: PropTypes.func.isRequired,
-    nextYear: PropTypes.func.isRequired
+    clickChange: PropTypes.func.isRequired
 };
