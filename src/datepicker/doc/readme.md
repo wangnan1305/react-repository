@@ -1,6 +1,6 @@
 ---
 category: Components
-title: datepicker
+title: Datepicker
 subtitle: 日期组件
 cols: 1
 ---
