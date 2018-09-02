@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { formatDate, classNames, nextDay } from './tools/index';
 import DaySelect from './components/daySelect';
 import WeekSelect from './components/weekSelect';
+import RangeSelect from './components/rangeSelect';
 import Common from './components/common';
 
 import './style/index.scss';
@@ -105,6 +106,11 @@ export default class Datepicker extends Component {
                 loopValue: value,
                 daysMap: this.getDays(new Date(value))
             });
+        } else if (type === 'range') {
+            value = `${e.startDate} 至 ${e.endDate}`;
+            this.setState({
+                selectedValue: value
+            });
         }
         onChange && onChange(value);
     }
@@ -145,18 +151,29 @@ export default class Datepicker extends Component {
                 />);
                 break;
             case 'week':
-                contentHtml = (
-                    <WeekSelect
-                        {...{
-                            value,
-                            navYear,
-                            navMonth,
-                            daysMap,
-                            clickChange: this.clickInput,
-                            addDayClsName: this.addDayClsName
-                        }}
-                    />
-                );
+                contentHtml = (<WeekSelect
+                    {...{
+                        value,
+                        navYear,
+                        navMonth,
+                        daysMap,
+                        clickChange: this.clickInput,
+                        addDayClsName: this.addDayClsName
+                    }}
+                />);
+                break;
+            case 'range':
+                contentHtml = (<RangeSelect
+                    {...{
+                        value,
+                        navYear,
+                        navMonth,
+                        daysMap,
+                        selectedValue,
+                        nowValue,
+                        clickChange: this.clickInput
+                    }}
+                />);
                 break;
             default:
                 contentHtml = null;

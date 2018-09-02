@@ -17,8 +17,9 @@ class App extends React.Component {
       super(props);
       this.config = {
         dateConfig: [
-          { value: 'day' , name: '按日查询' },
-          { value: 'week', name: '按周查询' }
+          { value: 'day' , name: '自然日' },
+          { value: 'week', name: '自然周' },
+          { value: 'range', name: '自定义' }
         ],
         onChange: this.onChange,
         defaultValue: '2018-07-28'

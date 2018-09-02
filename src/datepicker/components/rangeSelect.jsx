@@ -2,16 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate, classNames } from '../tools/index';
 
-export default class DaySelect extends Component {
+export default class RangeSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
+            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+            startDate: null,
+            endDate: null
         };
     }
     dayClickChange = e => {
+        const { startDate, endDate } = this.state;
         const { clickChange } = this.props;
-        clickChange(e, 'day');
+        const time = e.target.dataset.time;
+        if (startDate === null) {
+            this.setState({ startDate: time });
+        } else if (startDate !== null && endDate === null) {
+            this.setState({ endDate: time }, () => {
+                clickChange({ startDate, endDate: this.state.endDate }, 'range');
+            });
+        } else if (startDate !== null && endDate !== null) {
+            this.setState({ startDate: time, endDate: null });
+        }
     }
     addDayClsName = item => {
         const { nowValue, selectedValue } = this.props;
@@ -58,7 +70,7 @@ export default class DaySelect extends Component {
         );
     }
 }
-DaySelect.propTypes = {
+RangeSelect.propTypes = {
     nowValue: PropTypes.string.isRequired,
     selectedValue: PropTypes.string.isRequired,
     daysMap: PropTypes.array.isRequired,
