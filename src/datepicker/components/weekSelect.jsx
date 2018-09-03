@@ -6,7 +6,6 @@ export default class WeekSelect extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            weekText,
             startData: null,
             endData: null
         };
@@ -53,7 +52,6 @@ export default class WeekSelect extends PureComponent {
         return html;
     }
     render() {
-        const { weekText } = this.state;
         const { daysMap } = this.props;
         return (
             <React.Fragment>
