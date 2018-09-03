@@ -34,21 +34,20 @@ export default class RangeSelect extends Component {
         const { nowValue, selectedValue } = this.props;
         const { startDate, endDate, clearCss } = this.state;
         const dayText = formatDate(item.day, 'yyyy-MM-dd');
-        console.log(`第一次点击${dayText}`);
         let cls = 'days-con-item';
         try {
-            const start = selectedValue.split('至')[0].replace(/^\s+|\s+$/g, ''),
-                    end = selectedValue.split('至')[1].replace(/^\s+|\s+$/g, '');
-            console.log((start === dayText) && !!end);
+            const start = selectedValue.split('至')[0] && selectedValue.split('至')[0].replace(/^\s+|\s+$/g, ''),
+                    end = selectedValue.split('至')[1] && selectedValue.split('至')[1].replace(/^\s+|\s+$/g, '');
             if (item.cls === 'no-active') {
                 cls = classNames(cls, { 'no-active': true });
             }
-            // if(dayText === startDate)
-            if ((startDate && endDate && this.getTime(dayText) >= this.getTime(start) && this.getTime(dayText) <= this.getTime(end)) ||
-            ((dayText === startDate) && !!end)
+            if ((startDate && endDate && this.getTime(dayText) >= this.getTime(start) && this.getTime(dayText) <= this.getTime(end))
             ) {
                 cls = classNames(cls, { 'selected-active': !clearCss });
-            } else if (dayText === nowValue) {
+            } else if ((startDate === dayText) && endDate === null) {
+                cls = classNames(cls, { 'selected-active': true });
+            }
+            else if (dayText === nowValue) {
                 cls = classNames(cls, { 'now-active': true });
             }
         } catch (error) {

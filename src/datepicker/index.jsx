@@ -109,7 +109,8 @@ export default class Datepicker extends Component {
         } else if (type === 'range') {
             value = `${e.startDate} 至 ${e.endDate}`;
             this.setState({
-                selectedValue: value
+                selectedValue: value,
+                daysMap: this.getDays(new Date(value))
             });
         }
         onChange && onChange(value);

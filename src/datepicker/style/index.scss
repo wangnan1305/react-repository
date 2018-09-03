@@ -180,9 +180,11 @@
     }
     .over-animate{
         opacity: 1;
+        display: block;
     }
     .leave-animate{
         opacity: 0;
+        display: none;
     }
 }
 .clearfix::before{

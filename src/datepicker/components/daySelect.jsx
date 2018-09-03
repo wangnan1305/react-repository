@@ -13,7 +13,6 @@ export default class DaySelect extends Component {
     }
     addDayClsName = item => {
         const { nowValue, selectedValue } = this.props;
-        console.log(selectedValue)
         const dayText = formatDate(item.day, 'yyyy-MM-dd');
         let cls = 'days-con-item';
         if (item.cls === 'no-active') {
