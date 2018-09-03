@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate, classNames } from '../tools/index';
+import { formatDate, classNames, weekText } from '../tools/index';
 
 export default class DaySelect extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
-        };
+        this.state = { weekText };
     }
     dayClickChange = e => {
         const { clickChange } = this.props;

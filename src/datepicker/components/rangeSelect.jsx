@@ -1,41 +1,56 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate, classNames } from '../tools/index';
+import { formatDate, classNames, weekText } from '../tools/index';
 
 export default class RangeSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            weekText: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+            weekText,
             startDate: null,
-            endDate: null
+            endDate: null,
+            clearCss: false
         };
     }
+    getTime = data => new Date(data).getTime();
     dayClickChange = e => {
         const { startDate, endDate } = this.state;
         const { clickChange } = this.props;
         const time = e.target.dataset.time;
         if (startDate === null) {
-            this.setState({ startDate: time });
+            this.setState({ startDate: time, clearCss: false });
         } else if (startDate !== null && endDate === null) {
-            this.setState({ endDate: time }, () => {
+            this.setState({ endDate: time, clearCss: false }, () => {
+                if (this.getTime(startDate) > this.getTime(this.state.endDate)) {
+                    clickChange({ startDate: this.state.endDate, endDate: startDate }, 'range');
+                    return;
+                }
                 clickChange({ startDate, endDate: this.state.endDate }, 'range');
             });
         } else if (startDate !== null && endDate !== null) {
-            this.setState({ startDate: time, endDate: null });
+            this.setState({ startDate: time, endDate: null, clearCss: true });
         }
     }
     addDayClsName = item => {
         const { nowValue, selectedValue } = this.props;
+        const { startDate, endDate } = this.state;
         const dayText = formatDate(item.day, 'yyyy-MM-dd');
         let cls = 'days-con-item';
-        if (item.cls === 'no-active') {
-            cls = classNames(cls, { 'no-active': true });
-        }
-        if (dayText === selectedValue) {
-            cls = classNames(cls, { 'selected-active': true });
-        } else if (dayText === nowValue) {
-            cls = classNames(cls, { 'now-active': true });
+        try {
+            const start = selectedValue.split('至')[0].replace(/^\s+|\s+$/g, ''),
+                    end = selectedValue.split('至')[1].replace(/^\s+|\s+$/g, '');
+            if (item.cls === 'no-active') {
+                cls = classNames(cls, { 'no-active': true });
+            }
+            if ((startDate && endDate && this.getTime(dayText) >= this.getTime(start) && this.getTime(dayText) <= this.getTime(end))
+            // ((dayText === start) && !endDate)
+            ) {
+                cls = classNames(cls, { 'selected-active': !this.state.clearCss });
+            } else if (dayText === nowValue) {
+                cls = classNames(cls, { 'now-active': true });
+            }
+        } catch (error) {
+            return cls;
         }
         return cls;
     }

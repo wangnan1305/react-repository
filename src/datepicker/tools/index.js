@@ -130,3 +130,5 @@ export function classNames(...args) {
     }
     return classes.join(' ');
 }
+
+export const weekText = ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'];
